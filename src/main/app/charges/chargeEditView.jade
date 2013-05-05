@@ -1,0 +1,24 @@
+.chargesListView(ng-controller="charges.chargeEditViewCtrl")
+    h1(ng-show="isNew") Nouvelles dépenses
+    h1(ng-hide="isNew") Modifiers les dépenses
+    form.form-horizontal(name="form", novalidate)
+        .control-group
+            label.control-label Semaine
+            .controls
+                input(type="date", ng-model="charge.week", required)
+        legend
+            span Dépenses - Total:
+            strong  {{getTotal()|currency}}
+            button.btn.btn-mini(ng-click="addOutlayItem()")
+                i.icon-plus-sign
+
+        .control-group(ng-repeat="outlay in outlaysItems")
+            label.control-label {{outlay}}
+            .controls
+                input.input-mini(type="number", ng-model="charge.outlays[outlay]")
+
+        .form-actions
+            button.btn.btn-danger(ng-click="cancel()") Annuler
+            button.btn.btn-primary(ng-disabled="form.$invalid", ng-click="save()") Enregistrer
+
+            pre {{charge}}

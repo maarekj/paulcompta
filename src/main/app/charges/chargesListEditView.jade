@@ -1,0 +1,29 @@
+.chargesListView(ng-controller="charges.chargesListEditViewCtrl")
+    .row
+        .span12
+            h1 Modifications des charges
+            table.table.table-condensed
+                thead
+                    tr
+                        th.action
+                        th.week Semaine
+                        th(ng-repeat="outlay in outlaysItems") {{outlay}}
+                        th.total Total
+                tbody
+                    tr(ng-repeat="(index, charge) in charges")
+                        td.action
+                            button.btn.btn-primary.btn-mini(ng-click="editChargeAtIndex(index)")
+                                i.icon-edit.icon-white
+                            button.btn.btn-danger.btn-mini(ng-click="removeChargeAtIndex(index)")
+                                i.icon-trash.icon-white
+                        td.week {{charge.week|date}}
+                        td.currency.edit(ng-repeat="outlay in outlaysItems")
+                            input.input-mini(type="number", ng-model="charge.outlays[outlay]")
+                        td.currency.total
+                            {{getTotalOfCharge(charge)|currency}}
+            .btn-group
+                a.btn(href="#charges")
+                    i.icon-arrow-left
+                button.btn(ng-click="addCharge()")
+                    i.icon-plus
+                    span Ajouter une ligne

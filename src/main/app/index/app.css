@@ -1,0 +1,53 @@
+/* Custom CSS can go here, but since we're using bootstrap, we don't have any */
+body {
+    position: relative;
+    padding-top: 60px;
+}
+
+#app h1 {
+    display: inline-block;
+}
+
+#app table {
+    box-shadow: 1px 1px 10px rgba(0,0,0,0.3);
+}
+
+#app table tr th {
+    background-color: #9FBE80;
+    color: #274E13;
+    text-align: center;
+    border-top: black 1px solid;
+    border-bottom: black 1px solid;
+    box-shadow: inset 1px 0px 1px rgba(0,0,0,0.3);
+}
+
+#app table tr th:last-child,
+#app table tr td:last-child {
+    border-right: black 1px solid;
+}
+
+#app table tr:last-child td {
+    border-bottom: black 1px solid;
+}
+
+#app table tr th:first-child,
+#app table tr td:first-child {
+    border-left: black 1px solid;
+}
+
+#app table tr td {
+    background-color: #D9EAD3;
+    border: white 1px solid;
+}
+
+#app table tr td.currency {
+    text-align: right;
+}
+
+#app td.edit input {
+    margin-bottom: 0px;
+}
+
+#app td.edit {
+    padding: 0px;
+}

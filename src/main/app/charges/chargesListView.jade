@@ -1,0 +1,22 @@
+.chargesListView(ng-controller="charges.chargesListViewCtrl")
+    .row
+        .span12
+            h1 Charges
+            table.table.table-condensed
+                thead
+                    tr
+                        th.week Semaine
+                        th(ng-repeat="outlay in outlaysItems") {{outlay}}
+                        th.total Total
+                tbody
+                    tr(ng-repeat="charge in charges")
+                        td.week {{charge.week|date}}
+                        td.currency(ng-repeat="outlay in outlaysItems")
+                            {{charge.outlays[outlay]|currency}}
+                        td.currency.total
+                            {{getTotalOfCharge(charge)|currency}} 
+            .btn-group
+                a.btn(href="#charges/edit")
+                    i.icon-edit
+                    span  Modifier
+                a.btn(href="{{google.authUrl}}") Google

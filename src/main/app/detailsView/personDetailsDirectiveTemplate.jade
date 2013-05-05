@@ -1,0 +1,23 @@
+.row
+   .span2
+      label Id
+   .span2
+      input(disabled, type="text", value="{{who.id}}")
+
+.row
+   .span2
+      label First Name
+   .span2
+      input(disabled, type="text", value="{{who.firstName}}")
+
+.row
+   .span2
+      label Last Name
+   .span2
+      input(disabled, type="text", value="{{who.lastName}}")
+
+.row
+   .span2
+      label Username
+   .span2
+      input(disabled, type="text", value="{{who.firstName + '.' + who.lastName | toLower }}")

@@ -1,3 +1,9 @@
+=======
+paulcompta
+==========
+
+Application web gérant la comptabilité d'une très petite structure.
+
 # angular-grunt-coffeescript
 # A Seed project for large CoffeeScript AngularJS projects
 

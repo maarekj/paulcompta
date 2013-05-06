@@ -23,7 +23,7 @@ class EnvironmentProvider
         @google.scope = 'https://www.googleapis.com/auth/drive'
             
         @google.baseUrl = 'https://accounts.google.com/o/oauth2'
-        @google.redirectUri = 'http://localhost:8000/index.html'
+        @google.redirectUri = 'http://localhost:8000'
         @google.authUrl = "#{@google.baseUrl}/auth?scope=#{@google.scope}&response_type=token&client_id=#{@google.clientId}&redirect_uri=#{@google.redirectUri}"
 
     $get:

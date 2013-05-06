@@ -34,9 +34,9 @@ mods = [
 routesConfigFn = ($routeProvider)->
 
     $routeProvider.when('/search',
-        {templateUrl: 'searchView/searchView.html'})
+        {templateUrl: '/searchView/searchView.html'})
     $routeProvider.when('/details/:id',
-        {templateUrl: 'detailsView/detailsView.html'})
+        {templateUrl: '/detailsView/detailsView.html'})
     $routeProvider.when('/',
         {templateUrl: '/charges/chargesListView.html'})
     $routeProvider.when('/charges',
@@ -66,7 +66,10 @@ m.config (['common.services.envProvider', (envProvider)->
         envProvider.appConfig()
 ])
 
-m.run (['common.services.env', (env)->
+m.run (['common.services.env', '$location', (env, $location)->
+
+    access_token = $location.path().match(/access_token=([^&]+)/)?[1]
+    console.log(access_token);
 
     # Allows the environment service to run whatever app run block it wants.
     if env.appRun?

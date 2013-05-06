@@ -19,7 +19,7 @@ module.exports = (grunt)->
    STAGE_APP_DIR =              "#{STAGE_DIR}/app"
    STAGE_TEST_DIR =             "#{STAGE_DIR}/test"
 
-   BUILD_TEST_DIR =             "#{BUILD_DIR}/test" 
+   BUILD_TEST_DIR =             "#{BUILD_DIR}/test"
 
    # index.html is special, since it should be moved out of the index view and into the root
    SRC_INDEX_HTML =             "#{STAGE_APP_DIR}/index/index.html"

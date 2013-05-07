@@ -7,20 +7,20 @@
                     tr
                         th.action
                         th.week Semaine
-                        th(ng-repeat="outlay in outlaysItems") {{outlay}}
+                        th(ng-repeat="charge in chargesItems") {{charge}}
                         th.total Total
                 tbody
-                    tr(ng-repeat="(index, charge) in charges")
+                    tr(ng-repeat="(index, week) in weeks")
                         td.action
                             button.btn.btn-primary.btn-mini(ng-click="editChargeAtIndex(index)")
                                 i.icon-edit.icon-white
                             button.btn.btn-danger.btn-mini(ng-click="removeChargeAtIndex(index)")
                                 i.icon-trash.icon-white
-                        td.week {{charge.week|date}}
-                        td.currency.edit(ng-repeat="outlay in outlaysItems")
-                            input.input-mini(type="number", ng-model="charge.outlays[outlay]")
+                        td.week {{week.week|date}}
+                        td.currency.edit(ng-repeat="charge in chargesItems")
+                            input.input-mini(type="number", ng-model="week.charges[charge]")
                         td.currency.total
-                            {{getTotalOfCharge(charge)|currency}}
+                            {{getTotalOfCharge(week)|currency}}
             .btn-group
                 a.btn(href="#charges")
                     i.icon-arrow-left

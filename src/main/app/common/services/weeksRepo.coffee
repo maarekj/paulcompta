@@ -2,22 +2,22 @@
 Example of a service shared across views.
 Wrapper around the data layer for the app. 
 ###
-name = 'common.services.chargesRepo'
+name = 'common.services.weeksRepo'
 
-class ChargesRepo
+class WeeksRepo
 
 	constructor: (@$log, @env, @_) ->
-        @charges = [
+        @weeks = [
             {
                 "week": new Date("2013-02-25")
-                "outlays":
+                "charges":
                     "Employé": 40
                     "Aliments": 366.80
                     "Essence": 34.82
             }
             {
                 "week": new Date("2013-03-04")
-                "outlays":
+                "charges":
                     "Employé": 105
                     "Aliments": 515.07
                     "Bois": 39.70
@@ -26,7 +26,7 @@ class ChargesRepo
             }
             {
                 "week": new Date("2013-03-11")
-                "outlays":
+                "charges":
                     "Loyer": 450
                     "Employé": 50
                     "Aliments": 384.58
@@ -38,38 +38,38 @@ class ChargesRepo
         
     create: () ->
         week: new Date()
-        outlays: {}
+        charges: {}
     
     getAll: () ->
-        return @charges
+        return @weeks
     
-    add: (charge) ->
-        @charges.push(charge)
+    add: (week) ->
+        @weeks.push(week)
         
-    save: (index, charge) ->
-        @charges[index] = charge
+    save: (index, week) ->
+        @weeks[index] = week
         
     get: (index) ->
         return @getAll()[index]
         
-    getOutlaysItems: () ->
+    getChargesItems: () ->
         items = []
-        for charge in @getAll()
-            for outlay of charge.outlays
-                items.push outlay
+        for week in @getAll()
+            for charge of week.charges
+                items.push charge
 
         return @_.uniq items
         
-    getTotalOfCharge: (charge) ->
+    getTotalOfCharge: (week) ->
         total = 0
-        for outlay, price of charge.outlays
+        for charge, price of week.charges
             total += price
         return total
         
     removeAtIndex: (index) ->
-        @charges.splice(index, 1)
+        @weeks.splice(index, 1)
         return @
 
 angular.module(name, []).factory(name, ['$log', 'common.services.env', 'underscore', ($log, env, underscore) ->
-	new ChargesRepo($log, env, underscore)
+	new WeeksRepo($log, env, underscore)
 ])

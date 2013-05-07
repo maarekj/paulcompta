@@ -1,11 +1,15 @@
 #navbar(ng-controller="navbar.navbarCtrl")
-   .navbar.navbar-inverse.navbar-fixed-top
-      .navbar-inner
-         a.brand Paul Compta
-         ul.nav
-            li
-               a(href="#charges") Charges
-            li
-               a Chiffre d'affaires
-            li
-               a Bénéfices
+    .navbar.navbar-inverse.navbar-fixed-top(ng-show="isConnected()")
+        .navbar-inner
+            a.brand Paul Compta
+            ul.nav
+                li
+                    a(href="#charges") Charges
+                li
+                    a Chiffre d'affaires
+                li
+                    a Bénéfices
+            ul.nav.pull-right
+                li
+                    a(ng-click='deconnect()', href="#") se déconnecter
+                

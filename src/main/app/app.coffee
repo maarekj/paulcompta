@@ -3,6 +3,8 @@
 ### ###########################################################################
 
 mods = [
+    'ngCookies'
+    'common.services.authService'
     'common.directives.glowGreenOnMouseoverDirective'
     'common.directives.uiTooltipDirective'
     'common.filters.toLowerFilter'
@@ -10,21 +12,16 @@ mods = [
     'common.services.envProvider'
     'common.services.toastrWrapperSvc'
     
-    'common.services.chargesRepo'
+    'common.services.weeksRepo'
     'underscore'
-
-    'detailsView.detailsViewCtrl'
-    'detailsView.personDetailsDirective'
     
+    'login.loginViewCtrl'
     'charges.chargesListViewCtrl'
     'charges.chargesListEditViewCtrl'
     'charges.chargeEditViewCtrl'
 
     'navbar.navbarCtrl'
     'index.indexCtrl'
-
-    'searchView.mattizerFilter'
-    'searchView.searchViewCtrl'
 ]
 
 ### ###########################################################################
@@ -32,22 +29,20 @@ mods = [
 ### ###########################################################################
 
 routesConfigFn = ($routeProvider)->
+    $routeProvider.when('/login',
+        {templateUrl: '/login/loginView.html'})
 
-    $routeProvider.when('/search',
-        {templateUrl: '/searchView/searchView.html'})
-    $routeProvider.when('/details/:id',
-        {templateUrl: '/detailsView/detailsView.html'})
     $routeProvider.when('/',
         {templateUrl: '/charges/chargesListView.html'})
     $routeProvider.when('/charges',
         {redirectTo: '/'})
-        
     $routeProvider.when('/charges/edit',
         {templateUrl: '/charges/chargesListEditView.html'})
     $routeProvider.when('/charges/new',
         {templateUrl: '/charges/chargeEditView.html'})
     $routeProvider.when('/charges/edit/:index',
         {templateUrl: '/charges/chargeEditView.html'})
+        
 
     $routeProvider.otherwise({redirectTo: '/'})
 
@@ -66,14 +61,13 @@ m.config (['common.services.envProvider', (envProvider)->
         envProvider.appConfig()
 ])
 
-m.run (['common.services.env', '$location', (env, $location)->
-
-    access_token = $location.path().match(/access_token=([^&]+)/)?[1]
-    console.log(access_token);
+m.run (['common.services.env', 'common.services.authService', (env, authService)->
 
     # Allows the environment service to run whatever app run block it wants.
     if env.appRun?
         env.appRun()
+        
+    authService.runAtStart()
 ])
 
 angular.element(document).ready ()->

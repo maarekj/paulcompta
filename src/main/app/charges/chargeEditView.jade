@@ -5,20 +5,20 @@
         .control-group
             label.control-label Semaine
             .controls
-                input(type="date", ng-model="charge.week", required)
+                input(type="date", ng-model="week.week", required)
         legend
             span Dépenses - Total:
             strong  {{getTotal()|currency}}
-            button.btn.btn-mini(ng-click="addOutlayItem()")
+            button.btn.btn-mini(ng-click="addChargeItem()")
                 i.icon-plus-sign
 
-        .control-group(ng-repeat="outlay in outlaysItems")
-            label.control-label {{outlay}}
+        .control-group(ng-repeat="charge in chargesItems")
+            label.control-label {{charge}}
             .controls
-                input.input-mini(type="number", ng-model="charge.outlays[outlay]")
+                input.input-mini(type="number", ng-model="week.charges[charge]")
 
         .form-actions
             button.btn.btn-danger(ng-click="cancel()") Annuler
             button.btn.btn-primary(ng-disabled="form.$invalid", ng-click="save()") Enregistrer
 
-            pre {{charge}}
+            pre {{week}}

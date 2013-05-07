@@ -1,11 +1,10 @@
 name = 'index.indexCtrl'
 
 angular.module(name, []).controller(name, [
-	'$log',
-	'$scope',
+	'$log'
+	'$scope'
 	'common.services.env'
-	($log, $scope, envSvc) ->
-
-		$scope.env = envSvc.env
-		
+    'common.services.authService'
+	($log, $scope, envSvc, authService) ->
+        $scope.env = envSvc.env
 	])

@@ -4,15 +4,13 @@ nameEditCtrl = 'charges.chargeEditViewCtrl'
 
 angular.module(nameListCtrl, []).controller(nameListCtrl, [
     '$scope'
-    'common.services.env'
-    'common.services.chargesRepo'
-    ($scope, env, chargesRepo) ->        
-        $scope.charges = chargesRepo.getAll()
-        $scope.outlaysItems = chargesRepo.getOutlaysItems()
-        $scope.google = env.google
+    'common.services.weeksRepo'
+    ($scope, weeksRepo) ->        
+        $scope.weeks = weeksRepo.getAll()
+        $scope.chargesItems = weeksRepo.getChargesItems()
 
-        $scope.getTotalOfCharge = (charge) ->
-            return chargesRepo.getTotalOfCharge(charge)
+        $scope.getTotalOfCharge = (week) ->
+            return weeksRepo.getTotalOfCharge(week)
 	])
     
 
@@ -20,17 +18,17 @@ angular.module(nameListEditCtrl, []).controller(nameListEditCtrl, [
     '$scope'
     '$window'
     '$location'
-    'common.services.chargesRepo'
-    ($scope, $window, $location, chargesRepo) ->        
-        $scope.charges = chargesRepo.getAll()
-        $scope.outlaysItems = chargesRepo.getOutlaysItems()
+    'common.services.weeksRepo'
+    ($scope, $window, $location, weeksRepo) ->        
+        $scope.weeks = weeksRepo.getAll()
+        $scope.chargesItems = weeksRepo.getChargesItems()
         
-        $scope.getTotalOfCharge = (charge) ->
-            return chargesRepo.getTotalOfCharge(charge)
+        $scope.getTotalOfCharge = (week) ->
+            return weeksRepo.getTotalOfCharge(week)
             
         $scope.removeChargeAtIndex = (index) ->
             if ($window.confirm('Voulez-vous vraiment supprimé la ligne ?'))
-                chargesRepo.removeAtIndex(index)
+                weeksRepo.removeAtIndex(index)
                 
         $scope.editChargeAtIndex = (index) ->
             $location.path("/charges/edit/#{index}")
@@ -44,31 +42,31 @@ angular.module(nameEditCtrl, []).controller(nameEditCtrl, [
     '$window'
     '$location'
     '$routeParams'
-    'common.services.chargesRepo'
-    ($scope, $window, $location, $routeParams, chargesRepo) ->
+    'common.services.weeksRepo'
+    ($scope, $window, $location, $routeParams, weeksRepo) ->
 
-        $scope.outlaysItems = chargesRepo.getOutlaysItems()
+        $scope.chargesItems = weeksRepo.getChargesItems()
 
         index = $routeParams.index
         if index?
             $scope.isNew = false
-            $scope.charge = chargesRepo.get(index)
+            $scope.week = weeksRepo.get(index)
         else
             $scope.isNew = true
-            $scope.charge = chargesRepo.create()
+            $scope.week = weeksRepo.create()
         
         $scope.getTotal = () ->
-            return chargesRepo.getTotalOfCharge($scope.charge)
+            return weeksRepo.getTotalOfCharge($scope.week)
             
-        $scope.addOutlayItem = () ->
+        $scope.addChargeItem = () ->
             item = $window.prompt('Quel est le nom du poste de dépense à ajouter ?')
-            $scope.outlaysItems.push(item)
+            $scope.chargesItems.push(item)
             
         $scope.save = () ->
             if ($scope.isNew)
-                chargesRepo.add($scope.charge)
+                weeksRepo.add($scope.week)
             else
-                chargesRepo.save(index, $scope.charge)
+                weeksRepo.save(index, $scope.week)
 
             $location.path('/charges/edit')
             

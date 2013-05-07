@@ -6,17 +6,16 @@
                 thead
                     tr
                         th.week Semaine
-                        th(ng-repeat="outlay in outlaysItems") {{outlay}}
+                        th(ng-repeat="charge in chargesItems") {{charge}}
                         th.total Total
                 tbody
-                    tr(ng-repeat="charge in charges")
-                        td.week {{charge.week|date}}
-                        td.currency(ng-repeat="outlay in outlaysItems")
-                            {{charge.outlays[outlay]|currency}}
+                    tr(ng-repeat="week in weeks")
+                        td.week {{week.week|date}}
+                        td.currency(ng-repeat="charge in chargesItems")
+                            {{week.charges[charge]|currency}}
                         td.currency.total
-                            {{getTotalOfCharge(charge)|currency}} 
+                            {{getTotalOfCharge(week)|currency}} 
             .btn-group
                 a.btn(href="#charges/edit")
                     i.icon-edit
                     span  Modifier
-                a.btn(href="{{google.authUrl}}") Google

@@ -1,6 +1,11 @@
 .chargesListView(ng-controller="charges.chargesListViewCtrl")
     .row
         .span12
+            ul
+                li(ng-repeat="file in files")
+                    pre {{file}}
+    .row
+        .span12
             h1 Charges
             table.table.table-condensed
                 thead

@@ -12,6 +12,7 @@ mods = [
     'common.services.envProvider'
     'common.services.toastrWrapperSvc'
     
+    'common.services.gdriveService'
     'common.services.weeksRepo'
     'underscore'
     

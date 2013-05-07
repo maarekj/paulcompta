@@ -5,9 +5,14 @@ nameEditCtrl = 'charges.chargeEditViewCtrl'
 angular.module(nameListCtrl, []).controller(nameListCtrl, [
     '$scope'
     'common.services.weeksRepo'
-    ($scope, weeksRepo) ->        
+    'common.services.gdriveService'
+    ($scope, weeksRepo, gdrive) ->        
         $scope.weeks = weeksRepo.getAll()
         $scope.chargesItems = weeksRepo.getChargesItems()
+        
+        $scope.files = gdrive.files((data, status) ->
+            console.log(data, status)
+        )
 
         $scope.getTotalOfCharge = (week) ->
             return weeksRepo.getTotalOfCharge(week)

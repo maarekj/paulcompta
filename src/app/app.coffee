@@ -5,12 +5,7 @@
 mods = [
     'ngCookies'
     'common.services.authService'
-    'common.directives.glowGreenOnMouseoverDirective'
-    'common.directives.uiTooltipDirective'
-    'common.filters.toLowerFilter'
-    'common.services.dataSvc'
     'common.services.envProvider'
-    'common.services.toastrWrapperSvc'
     
     'common.services.gdriveService'
     'common.services.weeksRepo'

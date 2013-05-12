@@ -1,3 +1,5 @@
+path = require('path')
+
 module.exports = (grunt)->
     ###############################################################
     # Constants
@@ -6,143 +8,99 @@ module.exports = (grunt)->
     PROFILE = grunt.option('profile') || 'dev'
 
     SRC_DIR =                       'src'
-    SRC_TEST_DIR =                  "#{SRC_DIR}/test"
-    SRC_PROFILES_DIR =              "#{SRC_DIR}/profiles"
-    CURRENT_PROFILE_DIR =           "#{SRC_PROFILES_DIR}/#{PROFILE}"
+    SRC_APP_DIR =                   "#{SRC_DIR}/app"
+    SRC_SERVER_DIR =                "#{SRC_DIR}/server"
 
-    TARGET_DIR =                    'target'
-    BUILD_DIR =                     "#{TARGET_DIR}/build"
-    BUILD_MAIN_DIR =                "#{BUILD_DIR}/main"
-
-    STAGE_DIR =                     "#{TARGET_DIR}/stage"
-    STAGE_APP_DIR =                 "#{STAGE_DIR}/app"
-    STAGE_TEST_DIR =                "#{STAGE_DIR}/test"
-
-    BUILD_TEST_DIR =                "#{BUILD_DIR}/test"
-
-    # index.html is special, since it should be moved out of the index view and into the root
-    SRC_INDEX_HTML =                "#{STAGE_APP_DIR}/index/index.html"
-    DEST_INDEX_HTML =               "#{BUILD_MAIN_DIR}/index.html"
+    BUILD_DIR =                     "dist"
+    BUILD_APP_DIR =                 "#{BUILD_DIR}/app"
+    BUILD_SERVER_DIR =              "#{BUILD_DIR}/server"
+    
+    APP_CSS_PATH =                  "#{BUILD_APP_DIR}/style/app.css"
+    APP_JS_PATH =                   "#{BUILD_APP_DIR}/js/app.js"
+    
+    SERVER_PATH =                   "#{BUILD_SERVER_DIR}/express"
 
     ###############################################################
     # Config
     ###############################################################
 
     grunt.initConfig
+        clean:
+            main:
+                src: BUILD_DIR
+            after_build:
+                src: ["#{BUILD_APP_DIR}/**/*.coffee", "#{BUILD_APP_DIR}/**/*.jade"]
 
-       clean:
-           main:
-              src: TARGET_DIR 
+        copy:
+            app:
+                files: [
+                    expand: true
+                    cwd: SRC_APP_DIR
+                    src: "**"
+                    dest: "#{BUILD_APP_DIR}/"
+                ]
 
-       copy:
+        concat:
+            app_css:
+                src: "#{BUILD_APP_DIR}/**/*.css"
+                dest: APP_CSS_PATH
 
-           # Copy all non-profile to the stage dir.  Stage dir allows us to override
-           # non-profile-specific code w/ the profile defined on the cmd line (or 'dev' by default)
-           stage:
-              files: [
-                  {
-                      expand:          true
-                      cwd:             "#{SRC_DIR}/main"
-                      src:             '**'
-                      dest:            STAGE_DIR
-                  }
-              ]
+        coffee:
+            app:
+                src: "#{BUILD_APP_DIR}/**/*.coffee"
+                dest: APP_JS_PATH
+            server:
+                expand: true
+                flatten: true
+                cwd: "#{SRC_SERVER_DIR}"
+                src: ['*.coffee']
+                dest: "#{BUILD_SERVER_DIR}/"
+                ext: '.js'
 
-           # override staging dir w/ profile-specific files
-           profiles:
-              files: [
-                  {
-                      expand:          true
-                      cwd:             CURRENT_PROFILE_DIR  
-                      src:             '**'
-                      dest:            STAGE_DIR
-                  }
-              ]
+        jade:
+            dist:
+                options:
+                    client: false
+                    pretty: true
+                    basePath: "#{BUILD_APP_DIR}/"
+                src: "#{BUILD_APP_DIR}/**/*.jade"
+                dest: "#{BUILD_APP_DIR}/"
 
-           # copies all files from staging to the build dir that do not need any further processing
-           static:
-              files: [
-                  {
-                      src:             SRC_INDEX_HTML
-                      dest:            DEST_INDEX_HTML
-                  }
-                  {
-                      expand:          true
-                      cwd:             STAGE_APP_DIR
-                      src:             ['**/*.{html,jpg,png,gif,jade}', "!{SRC_INDEX_HTML}"]
-                      dest:            BUILD_MAIN_DIR
-                  }
-              ]
+        uglify:
+            app:
+                src: APP_JS_PATH
+                dest: APP_JS_PATH
 
-           test:
-              files: [
-                  {
-                      expand:          true
-                      cwd:             SRC_TEST_DIR
-                      src:             ['{lib,config}/**']
-                      dest:            BUILD_TEST_DIR
-                  }
-              ]
+        cssmin:
+            app_css:
+                src: APP_CSS_PATH
+                dest: APP_CSS_PATH
 
-       concat:
-           app_css:
-              src: "#{STAGE_APP_DIR}/**/*.css"
-              dest: "#{BUILD_MAIN_DIR}/style/app.css"
-           lib_css: 
-              src: "#{STAGE_DIR}/lib/**/*.css"
-              dest: "#{BUILD_MAIN_DIR}/style/lib.css"
-           lib_js: 
-              src: "#{STAGE_DIR}/lib/**/*.js"
-              dest: "#{BUILD_MAIN_DIR}/js/lib.js"
+        express:
+            livereload:
+                options:
+                    port: 8000
+                    bases: [path.resolve(BUILD_APP_DIR)]
+                    monitor: {}
+                    debug: true
+                    server: path.resolve(SERVER_PATH)
 
-       coffee:
-           app:
-              src: "#{STAGE_APP_DIR}/**/*.coffee"
-              dest: "#{BUILD_MAIN_DIR}/js/app.js"
-           test:
-              src: "#{SRC_TEST_DIR}/**/*.coffee"
-              dest: "#{BUILD_TEST_DIR}/js/lib.js"
+#        connect:
+#            server:
+#                options:
+#                    base: BUILD_MAIN_DIR
 
-       uglify:
-           lib_js:
-              src: "#{BUILD_MAIN_DIR}/js/lib.js"
-              dest: "#{BUILD_MAIN_DIR}/js/lib.js"
-           app_js:
-              src: "#{BUILD_MAIN_DIR}/js/app.js"
-              dest: "#{BUILD_MAIN_DIR}/js/app.js"
-
-       cssmin:
-           lib_css:
-              src: "#{BUILD_MAIN_DIR}/style/lib.css"
-              dest: "#{BUILD_MAIN_DIR}/style/lib.css"
-           app_css:
-              src: "#{BUILD_MAIN_DIR}/style/app.css"
-              dest: "#{BUILD_MAIN_DIR}/style/app.css"
-
-       connect:
-           server:
-              options:
-                  base: BUILD_MAIN_DIR
-
-       regarde:
-           build:
-              options:
-                  base: BUILD_MAIN_DIR
-              files: ["#{SRC_DIR}/**/*.{css,coffee,js,html,jade}"]
-              tasks: ['build']
-           # Note, disabling this until https://github.com/mklabs/tiny-lr/issues/8 is resolved
-           # livereload:
-           #    files: ["#{BUILD_DIR}/**/*.{css,js,html}"]
-           #    tasks: ['livereload']
-
-       jade:
-           dist:
-              options:
-                  client: false
-                  pretty: true
-                  basePath: "#{STAGE_APP_DIR}/"
-              src: "#{STAGE_APP_DIR}/**/*.jade"
-              dest: "#{BUILD_MAIN_DIR}/"
+        regarde:
+            build:
+                options:
+                    base: BUILD_DIR
+                files: ["#{SRC_DIR}/**/*.{css,coffee,js,html,jade}"]
+                tasks: ['build', 'livereload']
+                
+            #Note, disabling this until https://github.com/mklabs/tiny-lr/issues/8 is resolved
+            #livereload:
+                #files: ["#{BUILD_APP_DIR}/**/*.{css,js,html}"]
+                #tasks: ['livereload']
 
     ##############################################################
     # Dependencies
@@ -156,17 +114,19 @@ module.exports = (grunt)->
     grunt.loadNpmTasks('grunt-contrib-cssmin')
     grunt.loadNpmTasks('grunt-contrib-connect')
     grunt.loadNpmTasks('grunt-contrib-livereload')
+    grunt.loadNpmTasks('grunt-express')
     grunt.loadNpmTasks('grunt-regarde')
 
     ###############################################################
     # Alias tasks
     ###############################################################
 
-    grunt.registerTask('build', ['copy','concat','coffee', 'jade'])
-    grunt.registerTask('watcher', ['livereload-start', 'connect', 'regarde']) 
-    grunt.registerTask('dist', ['build','uglify','cssmin'])
+    grunt.registerTask('build', ['copy', 'concat', 'coffee', 'jade', 'clean:after_build'])
+#    grunt.registerTask('watcher', ['livereload-start', 'connect', 'regarde']) 
+    grunt.registerTask('watcher', ['livereload-start', 'express', 'regarde']) 
+    grunt.registerTask('dist', ['build', 'uglify', 'cssmin'])
 
-    grunt.registerTask('default', ['clean','build','watcher'])
+    grunt.registerTask('default', ['clean:main', 'build', 'watcher'])
 
 
 

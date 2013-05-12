@@ -10,12 +10,15 @@ angular.module(nameListCtrl, []).controller(nameListCtrl, [
         $scope.weeks = weeksRepo.getAll()
         $scope.chargesItems = weeksRepo.getChargesItems()
         
-        $scope.files = gdrive.files((data, status) ->
+        $scope.files = gdrive.files (data, status) ->
             console.log(data, status)
-        )
 
         $scope.getTotalOfCharge = (week) ->
             return weeksRepo.getTotalOfCharge(week)
+            
+        $scope.save = () ->
+            gdrive.save weeksRepo.getAll(), (data, status) ->
+                console.log status, data
 	])
     
 

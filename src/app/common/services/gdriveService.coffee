@@ -6,12 +6,15 @@ name = 'common.services.gdriveService'
 
 class GdriveService
     constructor: (@$log, @$http, @authService, @env, @_) ->
-        @baseUrl = "https://www.googleapis.com/drive/v2"
-        @fileAppDataUrl = "#{@baseUrl}/files/appdata?access_token=#{@authService.getAccessToken()}&callback=JSON_CALLBACK"
-
+        @fileAppDataUrl = "/google/files/appdata?token=#{@authService.getAccessToken()}"
+        @saveUrl = "/save?token=#{@authService.getAccessToken()}"
     files: (callback) ->
-        @$http.jsonp(@fileAppDataUrl)
+        @$http.get(@fileAppDataUrl)
         .success(callback)
+
+    save: (weeks, callback) ->
+        req = @$http.post(@saveUrl, {weeks: weeks})
+        req.success(callback) if callback
 
 angular.module(name, []).factory(name, ['$log', '$http', 'common.services.authService', 'common.services.env', 'underscore', ($log, $http, authService, env, underscore) ->
 	new GdriveService($log, $http, authService, env, underscore)

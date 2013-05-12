@@ -1,1 +1,0 @@
-All of the libraries that are CDN'ed in from index.html have to (unfortunately) be here as well for testacular to find them.

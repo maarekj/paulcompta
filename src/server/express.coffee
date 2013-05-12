@@ -3,12 +3,18 @@ app = express()
 server = require('http').createServer(app)
 
 request = require('request')
+qrequest = require('./qrequest')
 
 app.use express.bodyParser()
 
 baseUrl = "https://www.googleapis.com/drive/v2"
 baseUploadUrl = "https://www.googleapis.com/upload/drive/v2"
 
+app.get '/test', (req, res) ->
+    qrequest.get("http://www.google.com").then (response) ->
+        res.json(response.body)
+    
+    
 app.get '/google/files/:fileId', (req, res) ->
     fileId = req.params.fileId
     token = req.query.token

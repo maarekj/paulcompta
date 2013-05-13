@@ -1,7 +1,7 @@
 name = 'common.services.authService'
 
 class AuthService
-    constructor: (@$log, @$rootScope, @$cookieStore, @$location, @$env) ->
+    constructor: (@$window, @$log, @$rootScope, @$cookieStore, @$location, @$env) ->
         @accessToken = null
         
     runAtStart: () -> 
@@ -13,10 +13,9 @@ class AuthService
         
         @setAccessToken(accessToken, expiresIn) if accessToken
         
-        @$rootScope.$on('$routeChangeStart', (event, next, current) =>
+        @$rootScope.$on '$routeChangeStart', (event, next, current) =>
             if not @isConnected() and next.templateUrl isnt '/loginView/loginView.html'
                 @$location.path('/login')
-        )
 
     deconnect: () ->
         @setAccessToken(null, null)
@@ -31,10 +30,15 @@ class AuthService
         return @accessToken
         
     setAccessToken: (accessToken, expiresIn) ->
-        @accessToken = accessToken
-        @accessTokenExpiresIn = expiresIn
-        @$cookieStore.put("#{name}.cookies.accessToken", accessToken)
+        date = new Date();
+        date.setTime(date.getTime() + (expiresIn * 1000));
 
-angular.module(name, []).factory(name, ['$log', '$rootScope', '$cookieStore', '$location', 'common.services.env', ($log, $rootScope, $cookieStore, $location, env) ->
-	new AuthService($log, $rootScope, $cookieStore, $location, env)
+        @accessToken = accessToken
+        @accessTokenExpiresIn = date
+
+        expires = "; expires=#{@accessTokenExpiresIn.toGMTString()}";
+        @$window.document.cookie = "#{name}.cookies.accessToken=#{@accessToken}; expires=#{@accessTokenExpiresIn.toGMTString()}; path=/"
+
+angular.module(name, []).factory(name, ['$window', '$log', '$rootScope', '$cookieStore', '$location', 'common.services.env', ($window, $log, $rootScope, $cookieStore, $location, env) ->
+	new AuthService($window, $log, $rootScope, $cookieStore, $location, env)
 ])

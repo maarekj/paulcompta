@@ -11,8 +11,12 @@ qrequest = (options) ->
     request options, (error, response, body) ->
         try
             body = JSON.parse(body)
-        if error
-            deferred.reject new Error(error)
+            
+        if error || body.error? || body.errors?
+            deferred.reject
+                error: error
+                response: response
+                body: body
         else
             deferred.resolve
                 response: response
@@ -44,7 +48,7 @@ qrequest.put = (url, options) ->
 
     return qrequest options
     
-qrequest.delete = (url, options) ->
+qrequest.del = (url, options) ->
     defaults =
         url: url
         method: 'delete'

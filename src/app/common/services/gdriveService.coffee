@@ -8,6 +8,7 @@ class GdriveService
     constructor: (@$log, @$http, @authService, @env, @_) ->
         @fileAppDataUrl = "/google/files/appdata?token=#{@authService.getAccessToken()}"
         @saveUrl = "/save?token=#{@authService.getAccessToken()}"
+
     files: (callback) ->
         @$http.get(@fileAppDataUrl)
         .success(callback)

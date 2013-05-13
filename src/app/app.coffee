@@ -6,7 +6,8 @@ mods = [
     'ngCookies'
     'common.services.authService'
     'common.services.envProvider'
-    
+    'common.services.deferredData'
+
     'common.services.gdriveService'
     'common.services.weeksRepo'
     'underscore'

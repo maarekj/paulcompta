@@ -4,7 +4,7 @@
 var server = require('./dist/server/express');
 
 var options = {
-  port: process.env.VCAP_APP_PORT || 3000,
+  port: process.env.VCAP_APP_PORT || 8000,
   hostname: process.env.VCAP_APP_HOST,
 };
 

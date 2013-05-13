@@ -6,7 +6,7 @@ name = 'common.services.weeksRepo'
 
 class WeeksRepo
 
-	constructor: (@$log, @env, @_) ->
+	constructor: (@$log, @env, @_, @gdrive) ->
         @weeks = [
             {
                 "week": new Date("2013-02-25")
@@ -70,6 +70,6 @@ class WeeksRepo
         @weeks.splice(index, 1)
         return @
 
-angular.module(name, []).factory(name, ['$log', 'common.services.env', 'underscore', ($log, env, underscore) ->
-	new WeeksRepo($log, env, underscore)
+angular.module(name, []).factory(name, ['$log', 'common.services.env', 'underscore', 'common.services.gdriveService', ($log, env, underscore, gdrive) ->
+	new WeeksRepo($log, env, underscore, gdrive)
 ])

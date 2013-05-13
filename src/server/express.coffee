@@ -8,13 +8,7 @@ app.post '/save', (req, res) ->
     token = req.query.token
     utils = require('./utils').create(token)
 
-    data = {
-        name: "Joseph Maarek"
-        wife: "Vanessa Maarek"
-        type: "Aime de tout son coeur <3 <3"
-    }
-
-    utils.sendContentInSharedFile(data)
+    utils.sendContentInSharedFile(req.body)
     .then (response) ->
         res.json(response.response.statusCode, response.body)
     .fail (error) ->

@@ -5,7 +5,7 @@ Wrapper around the data layer for the app.
 name = 'common.services.gdriveService'
 
 class GdriveService
-    constructor: (@$http, @authService, @env, @_) ->
+    constructor: (@$http, @authService, @env, @_, @deferredData) ->
         @loadUrl = "/load?token=#{@authService.getAccessToken()}"
         @saveUrl = "/save?token=#{@authService.getAccessToken()}"
         
@@ -18,15 +18,17 @@ class GdriveService
                 defer.$reject data
 
     load: () ->
+        defer = @deferredData.typeObject();
         @$http.get(@loadUrl)
-        .success(@resolveCallback(deferredData))
-        .error(@reject(deferredData));
+        .success(@resolveCallback(defer))
+        .error(@rejectCallback(defer));
                 
     save: (weeks) ->
+        defer = @deferredData.typeObject();
         req = @$http.post(@saveUrl, {weeks: weeks})
-        .success(@resolveCallback(deferredData))
-        .error(@reject(deferredData));
+        .success(@resolveCallback(defer))
+        .error(@rejectCallback(defer));
 
-angular.module(name, []).factory(name, ['$http', 'common.services.authService', 'common.services.env', 'underscore', ($http, authService, env, underscore) ->
-	new GdriveService($http, authService, env, underscore, )
+angular.module(name, []).factory(name, ['$http', 'common.services.authService', 'common.services.env', 'underscore', 'common.services.deferredData', ($http, authService, env, underscore, deferredData) ->
+	new GdriveService($http, authService, env, underscore, deferredData)
 ])

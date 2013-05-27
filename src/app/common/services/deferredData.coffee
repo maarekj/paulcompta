@@ -1,7 +1,7 @@
 name = 'common.services.deferredData'
 
 class DeferredData
-    constructor: (isArray) ->
+    constructor: (isArray, @$q) ->
         if isArray
             @deferredData = []
         else
@@ -23,7 +23,7 @@ class DeferredData
             @waiting = false
             # We don't use directly angular.copy to copy into deferredData, since
             # for an array it removes all the added methods.
-            if angular.isArray(deferredData)
+            if angular.isArray(@deferredData)
                 # Copy the array items (deep copy)
                 @deferredData.push(angular.copy(e)) for e in data
             else
@@ -31,7 +31,7 @@ class DeferredData
                 @deferredData[key] = angular.copy(e) for key, e of data
                 for key in data
                     @deferredData[key] = angular.copy(data[key]);
-        return defer.resolve(deferredData);
+        return @defer.resolve(@deferredData);
         
     $reject: (data) ->
         @defer.reject(data);
@@ -41,9 +41,9 @@ class DeferredData
 
 angular.module(name, []).factory(name, ['$q', ($q) ->
     typeArray: () ->
-        return new DeferredData(true)
+        return new DeferredData(true, $q)
     typeObject: () ->
-        return new DeferredData(false)
+        return new DeferredData(false, $q)
     isDeferredData: (object) ->
         obj?.$isDeferredData?()
     then: (object, callback) ->

@@ -85,7 +85,7 @@ class Utils
         options =
             url: url
             method: "PUT"
-            "content-type": "application/paul-compta"
+            "content-type": "application/json"
             body: JSON.stringify(content)
         qrequest(options)
 
@@ -94,5 +94,10 @@ class Utils
         .then (fileId) =>
             @sendContentForFileId fileId, content
 
+    loadContentOfSharedFile: () ->
+        @getSharedFile()
+        .then (file) =>
+            qrequest.get("#{file.body.downloadUrl}&access_token=#{@token}")
+        
 module.exports.create = (token) ->
     return new Utils(token)

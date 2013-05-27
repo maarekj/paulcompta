@@ -14,6 +14,17 @@ app.post '/save', (req, res) ->
     .fail (error) ->
         console.log error
         res.json(error.response?.statusCode ? 500, error.body ? error)
+        
+app.get '/load', (req, res) ->
+    token = req.query.token
+    utils = require('./utils').create(token)
+    
+    utils.loadContentOfSharedFile()
+    .then (response) ->
+        res.json(response.response.statusCode, response.body)
+    .fail (error) ->
+        console.log error
+        res.json(error.response?.statusCode ? 500, error.body ? error)
 
 try
     app.use(require('grunt-contrib-livereload/lib/utils').livereloadSnippet)

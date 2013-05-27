@@ -22,12 +22,14 @@ class GdriveService
         @$http.get(@loadUrl)
         .success(@resolveCallback(defer))
         .error(@rejectCallback(defer));
+        return defer
                 
     save: (weeks) ->
         defer = @deferredData.typeObject();
         req = @$http.post(@saveUrl, {weeks: weeks})
         .success(@resolveCallback(defer))
         .error(@rejectCallback(defer));
+        return defer
 
 angular.module(name, []).factory(name, ['$http', 'common.services.authService', 'common.services.env', 'underscore', 'common.services.deferredData', ($http, authService, env, underscore, deferredData) ->
 	new GdriveService($http, authService, env, underscore, deferredData)

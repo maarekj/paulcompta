@@ -37,7 +37,7 @@ class AuthService
         @accessTokenExpiresIn = date
 
         expires = "; expires=#{@accessTokenExpiresIn.toGMTString()}";
-        @$window.document.cookie = "#{name}.cookies.accessToken=#{@accessToken}; expires=#{@accessTokenExpiresIn.toGMTString()}; path=/"
+        @$window.document.cookie = "#{name}.cookies.accessToken=\"#{@accessToken}\"; expires=#{@accessTokenExpiresIn.toGMTString()}; path=/"
 
 angular.module(name, []).factory(name, ['$window', '$log', '$rootScope', '$cookieStore', '$location', 'common.services.env', ($window, $log, $rootScope, $cookieStore, $location, env) ->
 	new AuthService($window, $log, $rootScope, $cookieStore, $location, env)

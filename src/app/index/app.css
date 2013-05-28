@@ -51,3 +51,7 @@ body {
 #app td.edit {
     padding: 0px;
 }
+
+#app td.week {
+    font-weight: bold;
+}

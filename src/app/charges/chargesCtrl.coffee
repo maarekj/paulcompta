@@ -24,8 +24,12 @@ angular.module(nameListEditCtrl, []).controller(nameListEditCtrl, [
     '$location'
     'common.services.weeksRepo'
     ($scope, $window, $location, weeksRepo) ->        
-        $scope.weeks = weeksRepo.getAll()
-        $scope.chargesItems = weeksRepo.getChargesItems()
+
+        $scope.weeksChange = () -> weeksRepo.changes()
+        $scope.$watch "weeksChange()", () ->
+            $scope.weeks = weeksRepo.getAll()
+            $scope.chargesItems = weeksRepo.getChargesItems()
+
         
         $scope.getTotalOfCharge = (week) ->
             return weeksRepo.getTotalOfCharge(week)
@@ -64,7 +68,7 @@ angular.module(nameEditCtrl, []).controller(nameEditCtrl, [
             
         $scope.addChargeItem = () ->
             item = $window.prompt('Quel est le nom du poste de dépense à ajouter ?')
-            $scope.chargesItems.push(item)
+            $scope.chargesItems.push(item) if item
             
         $scope.save = () ->
             if ($scope.isNew)

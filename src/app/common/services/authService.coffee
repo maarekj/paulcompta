@@ -1,6 +1,8 @@
 name = 'common.services.authService'
 
 class AuthService
+    keyAccessToken = "#{name}.cookies.accessToken"
+    
     constructor: (@$window, @$log, @$rootScope, @$cookieStore, @$location, @$env) ->
         @accessToken = null
         
@@ -26,7 +28,7 @@ class AuthService
 
     getAccessToken: () ->
         if @accessToken == null
-            @accessToken = @$cookieStore.get("#{name}.cookies.accessToken")
+            @accessToken = @$cookieStore.get(@keyAccessToken)
         return @accessToken
         
     setAccessToken: (accessToken, expiresIn) ->
@@ -35,9 +37,14 @@ class AuthService
 
         @accessToken = accessToken
         @accessTokenExpiresIn = date
-
-        expires = "; expires=#{@accessTokenExpiresIn.toGMTString()}";
-        @$window.document.cookie = "#{name}.cookies.accessToken=\"#{@accessToken}\"; expires=#{@accessTokenExpiresIn.toGMTString()}; path=/"
+        
+        if (@accessToken == null)
+            @$cookieStore.remove(@keyAccessToken)
+        else
+            expires = "; expires=#{@accessTokenExpiresIn.toGMTString()}";
+            @$window.document.cookie = "#{@keyAccessToken}=\"#{@accessToken}\"; expires=#{@accessTokenExpiresIn.toGMTString()}; path=/"
+            @$rootScope.$broadcast 'connected', { @accessToken }
+            
 
 angular.module(name, []).factory(name, ['$window', '$log', '$rootScope', '$cookieStore', '$location', 'common.services.env', ($window, $log, $rootScope, $cookieStore, $location, env) ->
 	new AuthService($window, $log, $rootScope, $cookieStore, $location, env)

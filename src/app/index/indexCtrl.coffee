@@ -5,6 +5,8 @@ angular.module(name, []).controller(name, [
 	'$scope'
 	'common.services.env'
     'common.services.authService'
-	($log, $scope, envSvc, authService) ->
+    'common.services.gdriveService'
+	($log, $scope, envSvc, authService, gdrive) ->
         $scope.env = envSvc.env
+        $scope.gdrive = gdrive
 	])

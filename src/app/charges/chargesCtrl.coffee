@@ -12,11 +12,6 @@ angular.module(nameListCtrl, []).controller(nameListCtrl, [
 
         $scope.getTotalOfCharge = (week) ->
             return weeksRepo.getTotalOfCharge(week)
-            
-        $scope.save = () ->
-            gdrive.save(weeksRepo.getAll())
-            .$then (data, status) ->
-                console.log data
 	])
     
 

@@ -24,6 +24,9 @@
    <div id="app">
        <div ng-include="'navbar/navbarView.html'"></div>
         <div class="container">
+            <div ng-show="gdrive.loading" class="alert alert-info">
+                Chargement...
+            </div>
 		    <div ng-view></div>
             <div class="row">
 			    <div class="span12">

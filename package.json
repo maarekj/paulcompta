@@ -32,8 +32,5 @@
         "grunt-jade": "0.4.0",
         "grunt-express": "0.3.x"
     },
-    "scripts": {
-        "postinstall": "echo postinstall time; ./node_modules/grunt-cli/bin/grunt dist"
-    },
     "version": "0.2.0"
 }

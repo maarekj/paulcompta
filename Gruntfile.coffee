@@ -122,11 +122,11 @@ module.exports = (grunt)->
     ###############################################################
 
     grunt.registerTask('build', ['copy', 'concat', 'coffee', 'jade', 'clean:after_build'])
-#    grunt.registerTask('watcher', ['livereload-start', 'connect', 'regarde']) 
     grunt.registerTask('watcher', ['livereload-start', 'express', 'regarde']) 
     grunt.registerTask('dist', ['build', 'uglify', 'cssmin'])
 
     grunt.registerTask('default', ['clean:main', 'build', 'watcher'])
+    grunt.registerTask('heroku', ['dist']);
 
 
 

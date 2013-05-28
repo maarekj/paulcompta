@@ -16,10 +16,9 @@
         "express": "3.x",
         "request": "2.21.x",
         "q": "0.9.x",
-        "underscore": "1.4.4"
-    },
-    "devDependencies": {
+        "underscore": "1.4.4",
         "grunt": "0.4.1",
+        "grunt-cli": "0.1.9",
         "coffee-script": "1.6.x",
         "grunt-contrib-clean":"0.4.0",
         "grunt-contrib-coffee":"0.6.4",
@@ -32,6 +31,9 @@
         "grunt-contrib-uglify":"0.2.0",
         "grunt-jade": "0.4.0",
         "grunt-express": "0.3.x"
+    },
+    "scripts": {
+        "postinstall": "echo postinstall time; ./node_modules/grunt-cli/bin/grunt dist"
     },
     "version": "0.2.0"
 }

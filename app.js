@@ -4,12 +4,11 @@
 var server = require('./dist/server/express');
 
 var options = {
-  port: process.env.VCAP_APP_PORT || 8000,
-  hostname: process.env.VCAP_APP_HOST,
+  port: process.env.PORT || 8000,
 };
 
 server.use(server.express.static(__dirname + '/dist/app'));
 
-server.listen(options.port, options.hostname, function() {
+server.listen(options.port, function() {
   console.log('Web server started on ' + options.hostname + ':' + options.port + ' using the built app in "dist"');
 });

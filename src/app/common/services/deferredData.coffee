@@ -8,7 +8,7 @@ class DeferredData
             @deferredData = {}
         @defer = @$q.defer()        
         @waiting = true
-            
+
     $isWaiting: () ->
         @waiting
     

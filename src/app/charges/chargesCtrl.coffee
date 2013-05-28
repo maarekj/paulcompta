@@ -6,9 +6,12 @@ angular.module(nameListCtrl, []).controller(nameListCtrl, [
     '$scope'
     'common.services.weeksRepo'
     'common.services.gdriveService'
-    ($scope, weeksRepo, gdrive) ->        
-        $scope.weeks = weeksRepo.getAll()
-        $scope.chargesItems = weeksRepo.getChargesItems()
+    ($scope, weeksRepo, gdrive) ->
+
+        $scope.weeksChange = () -> weeksRepo.changes()
+        $scope.$watch "weeksChange()", () ->
+            $scope.weeks = weeksRepo.getAll()
+            $scope.chargesItems = weeksRepo.getChargesItems()
 
         $scope.getTotalOfCharge = (week) ->
             return weeksRepo.getTotalOfCharge(week)

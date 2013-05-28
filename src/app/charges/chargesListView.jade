@@ -14,7 +14,12 @@
                         td.currency(ng-repeat="charge in chargesItems")
                             {{week.charges[charge]|currency}}
                         td.currency.total
-                            {{getTotalOfCharge(week)|currency}} 
+                            {{getTotalOfCharge(week)|currency}}
+                tfoot
+                    tr
+                        th.week Semaine
+                        th(ng-repeat="charge in chargesItems") {{charge}}
+                        th.total Total
             .btn-group
                 a.btn(href="#charges/edit")
                     i.icon-edit

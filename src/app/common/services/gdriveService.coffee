@@ -10,9 +10,11 @@ class GdriveService
         @saveUrl = "/save?token=#{@authService.getAccessToken()}"
 
         @loading = false
-        @load()
-        @$rootScope.$on 'connected', (event, accessToken) =>
+        if @authService.isConnected()
             @load()
+        else
+            @$rootScope.$on 'connected', (event, accessToken) =>
+                @load()
         
     load: () ->
         @loading = true;

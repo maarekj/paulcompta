@@ -21,6 +21,12 @@
                             input.input-mini(type="number", ng-model="week.charges[charge]")
                         td.currency.total
                             {{getTotalOfCharge(week)|currency}}
+                tfoot
+                    tr
+                        th.action
+                        th.week Semaine
+                        th(ng-repeat="charge in chargesItems") {{charge}}
+                        th.total Total
             .btn-group
                 a.btn(href="#charges")
                     i.icon-arrow-left

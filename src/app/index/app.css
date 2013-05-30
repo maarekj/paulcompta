@@ -55,3 +55,18 @@ body {
 #app td.week {
     font-weight: bold;
 }
+
+#app .row.depenses .control-group {
+    width: 170px;
+    float: left;
+    min-height: 1px;
+    margin-left: 30px;
+}
+
+#app .row.depenses .control-group .control-label {
+    width: 80px;
+}
+
+#app .row.depenses .control-group {
+    margin-left: 90px;
+}

@@ -12,10 +12,11 @@
             button.btn.btn-mini(ng-click="addChargeItem()")
                 i.icon-plus-sign
 
-        .control-group(ng-repeat="charge in chargesItems")
-            label.control-label {{charge}}
-            .controls
-                input.input-mini(type="number", ng-model="week.charges[charge]")
+        .row.depenses
+            .control-group(ng-repeat="charge in chargesItems")
+                label.control-label {{charge}}
+                .controls
+                    input.input-mini(type="number", ng-model="week.charges[charge]")
 
         .form-actions
             button.btn.btn-danger(ng-click="cancel()") Annuler

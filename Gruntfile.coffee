@@ -1,5 +1,8 @@
 path = require('path')
 
+console.log process.env.ENV_GOOGLE_CLIENT_ID
+console.log process.env.ENV_GOOGLE_REDIRECT_URI
+
 module.exports = (grunt)->
     ###############################################################
     # Constants

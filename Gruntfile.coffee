@@ -40,6 +40,17 @@ module.exports = (grunt)->
                     dest: "#{BUILD_APP_DIR}/"
                 ]
 
+        replace:
+            app:
+                options:
+                    variables:
+                        "ENV_GOOGLE_CLIENT_ID": process.env.ENV_GOOGLE_CLIENT_ID
+                        "ENV_GOOGLE_REDIRECT_URI": process.env.ENV_GOOGLE_REDIRECT_URI
+                files: [
+                    src: ["#{BUILD_APP_DIR}/common/services/envProvider.coffee"]
+                    dest: "#{BUILD_APP_DIR}/common/services/envProvider.coffee"
+                ]
+                                    
         concat:
             app_css:
                 src: "#{BUILD_APP_DIR}/**/*.css"
@@ -116,12 +127,13 @@ module.exports = (grunt)->
     grunt.loadNpmTasks('grunt-contrib-livereload')
     grunt.loadNpmTasks('grunt-express')
     grunt.loadNpmTasks('grunt-regarde')
+    grunt.loadNpmTasks('grunt-replace')
 
     ###############################################################
     # Alias tasks
     ###############################################################
 
-    grunt.registerTask('build', ['copy', 'concat', 'coffee', 'jade', 'clean:after_build'])
+    grunt.registerTask('build', ['copy', 'replace', 'concat', 'coffee', 'jade', 'clean:after_build'])
     grunt.registerTask('watcher', ['livereload-start', 'express', 'regarde']) 
     grunt.registerTask('dist', ['build', 'uglify', 'cssmin'])
 

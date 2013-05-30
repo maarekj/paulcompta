@@ -16,11 +16,11 @@ class EnvironmentProvider
     constructor: () ->
         @google = {}
         
-        @google.clientId = '525964413214-9s58fe969e54t670gsi9pjrq2bphet6v.apps.googleusercontent.com'
+        @google.clientId = '@@ENV_GOOGLE_CLIENT_ID'
         @google.scope = 'https://www.googleapis.com/auth/drive.appdata'
             
         @google.baseUrl = 'https://accounts.google.com/o/oauth2'
-        @google.redirectUri = 'http://localhost:8000'
+        @google.redirectUri = '@@ENV_GOOGLE_REDIRECT_URI'
         @google.authUrl = "#{@google.baseUrl}/auth?scope=#{@google.scope}&response_type=token&client_id=#{@google.clientId}&redirect_uri=#{@google.redirectUri}"
 
     $get: ['$log', ($log)->

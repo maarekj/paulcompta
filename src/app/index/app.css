@@ -67,6 +67,6 @@ body {
     width: 80px;
 }
 
-#app .row.depenses .control-group {
+#app .row.depenses .control-group .controls {
     margin-left: 90px;
 }

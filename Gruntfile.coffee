@@ -1,8 +1,5 @@
 path = require('path')
 
-console.log process.env.ENV_GOOGLE_CLIENT_ID
-console.log process.env.ENV_GOOGLE_REDIRECT_URI
-
 module.exports = (grunt)->
     ###############################################################
     # Constants
@@ -44,11 +41,20 @@ module.exports = (grunt)->
                 ]
 
         replace:
-            app:
+            dev:
                 options:
                     variables:
-                        "ENV_GOOGLE_CLIENT_ID": process.env.ENV_GOOGLE_CLIENT_ID
-                        "ENV_GOOGLE_REDIRECT_URI": process.env.ENV_GOOGLE_REDIRECT_URI
+                        "ENV_GOOGLE_CLIENT_ID": "525964413214-9s58fe969e54t670gsi9pjrq2bphet6v.apps.googleusercontent.com"
+                        "ENV_GOOGLE_REDIRECT_URI": "http://localhost:8000"
+                files: [
+                    src: ["#{BUILD_APP_DIR}/common/services/envProvider.coffee"]
+                    dest: "#{BUILD_APP_DIR}/common/services/envProvider.coffee"
+                ]
+            heroku:
+                options:
+                    variables:
+                        "ENV_GOOGLE_CLIENT_ID": "525964413214-jrc04fjcde7kdd903dhe9ujnr68p7hg3.apps.googleusercontent.com"
+                        "ENV_GOOGLE_REDIRECT_URI": "http://paulcompta.heroku.com"
                 files: [
                     src: ["#{BUILD_APP_DIR}/common/services/envProvider.coffee"]
                     dest: "#{BUILD_APP_DIR}/common/services/envProvider.coffee"
@@ -136,12 +142,14 @@ module.exports = (grunt)->
     # Alias tasks
     ###############################################################
 
-    grunt.registerTask('build', ['copy', 'replace', 'concat', 'coffee', 'jade', 'clean:after_build'])
+    grunt.registerTask('build', ['copy', 'replace:dev', 'concat', 'coffee', 'jade', 'clean:after_build'])
+    grunt.registerTask('buildHeroku', ['copy', 'replace:heroku', 'concat', 'coffee', 'jade', 'clean:after_build'])
     grunt.registerTask('watcher', ['livereload-start', 'express', 'regarde']) 
     grunt.registerTask('dist', ['build', 'uglify', 'cssmin'])
+    grunt.registerTask('distHeroku', ['buildHeroku', 'uglify', 'cssmin'])
 
     grunt.registerTask('default', ['clean:main', 'build', 'watcher'])
-    grunt.registerTask('heroku', ['dist']);
+    grunt.registerTask('heroku', ['distHeroku']);
 
 
 

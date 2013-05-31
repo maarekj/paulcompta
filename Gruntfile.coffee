@@ -13,7 +13,8 @@ module.exports = (grunt)->
 
     BUILD_DIR =                     "dist"
     BUILD_APP_DIR =                 "#{BUILD_DIR}/app"
-    BUILD_SERVER_DIR =              "#{BUILD_DIR}/server"
+    BUILD_SERVER_DIR =              "#{BUILD_DIR}/server"    
+    BUILD_ENV_PROVIDER_PATH =       "#{BUILD_APP_DIR}/common/services/envProvider.coffee"
     
     APP_CSS_PATH =                  "#{BUILD_APP_DIR}/style/app.css"
     APP_JS_PATH =                   "#{BUILD_APP_DIR}/js/app.js"
@@ -28,7 +29,7 @@ module.exports = (grunt)->
         clean:
             main:
                 src: BUILD_DIR
-            after_build:
+            after_build_app:
                 src: ["#{BUILD_APP_DIR}/**/*.coffee", "#{BUILD_APP_DIR}/**/*.jade"]
 
         copy:
@@ -44,20 +45,22 @@ module.exports = (grunt)->
             dev:
                 options:
                     variables:
+                        "ENV_NAME": "dev localhost"
                         "ENV_GOOGLE_CLIENT_ID": "525964413214-9s58fe969e54t670gsi9pjrq2bphet6v.apps.googleusercontent.com"
                         "ENV_GOOGLE_REDIRECT_URI": "http://localhost:8000"
                 files: [
-                    src: ["#{BUILD_APP_DIR}/common/services/envProvider.coffee"]
-                    dest: "#{BUILD_APP_DIR}/common/services/envProvider.coffee"
+                    src: [BUILD_ENV_PROVIDER_PATH]
+                    dest: BUILD_ENV_PROVIDER_PATH
                 ]
             heroku:
                 options:
                     variables:
+                        "ENV_NAME": "heroku"
                         "ENV_GOOGLE_CLIENT_ID": "525964413214-jrc04fjcde7kdd903dhe9ujnr68p7hg3.apps.googleusercontent.com"
                         "ENV_GOOGLE_REDIRECT_URI": "http://paulcompta.heroku.com"
                 files: [
-                    src: ["#{BUILD_APP_DIR}/common/services/envProvider.coffee"]
-                    dest: "#{BUILD_APP_DIR}/common/services/envProvider.coffee"
+                    src: [BUILD_ENV_PROVIDER_PATH]
+                    dest: BUILD_ENV_PROVIDER_PATH
                 ]
                                     
         concat:
@@ -111,11 +114,16 @@ module.exports = (grunt)->
 #                    base: BUILD_MAIN_DIR
 
         regarde:
-            build:
+            build_app_dev:
                 options:
                     base: BUILD_DIR
-                files: ["#{SRC_DIR}/**/*.{css,coffee,js,html,jade}"]
-                tasks: ['build', 'livereload']
+                files: ["#{SRC_APP_DIR}/**/*.{css,coffee,js,html,jade}"]
+                tasks: ['build_app_dev', 'livereload']
+            build_server_dev:
+                options:
+                    base: BUILD_DIR
+                files: ["#{SRC_SERVER_DIR}/**/*.{coffee}"]
+                tasks: ['build_server_dev', 'livereload']
                 
             #Note, disabling this until https://github.com/mklabs/tiny-lr/issues/8 is resolved
             #livereload:
@@ -142,14 +150,15 @@ module.exports = (grunt)->
     # Alias tasks
     ###############################################################
 
-    grunt.registerTask('build', ['copy', 'replace:dev', 'concat', 'coffee', 'jade', 'clean:after_build'])
-    grunt.registerTask('buildHeroku', ['copy', 'replace:heroku', 'concat', 'coffee', 'jade', 'clean:after_build'])
-    grunt.registerTask('watcher', ['livereload-start', 'express', 'regarde']) 
-    grunt.registerTask('dist', ['build', 'uglify', 'cssmin'])
-    grunt.registerTask('distHeroku', ['buildHeroku', 'uglify', 'cssmin'])
+    for env in ['dev', 'heroku']
+        grunt.registerTask("build_app_#{env}", ['copy', "replace:#{env}", 'concat', 'coffee:app', 'jade', 'clean:after_build_app'])
+        grunt.registerTask('build_server', ['coffee:server'])
+        grunt.registerTask("build_#{env}", ["build_app_#{env}", 'build_server'])
 
-    grunt.registerTask('default', ['clean:main', 'build', 'watcher'])
-    grunt.registerTask('heroku', ['distHeroku']);
+    grunt.registerTask('watcher_dev', ['livereload-start', 'express', 'regarde']) 
 
+    for env in ['dev', 'heroku']
+        grunt.registerTask("dist_#{env}", ["clean:main", "build_#{env}", 'uglify', 'cssmin'])
 
-
+    grunt.registerTask('default', ['clean:main', 'build_dev', 'watcher_dev'])
+    grunt.registerTask('heroku', ['dist_heroku']);

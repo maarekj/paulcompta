@@ -20,6 +20,9 @@
                         th.week Semaine
                         th(ng-repeat="charge in chargesItems") {{charge}}
                         th.total Total
+                    tr
+                        th(colspan="{{1 + chargesItems.length}}")
+                        th.total.currency() {{totalAll|currency}}
             .btn-group
                 a.btn(href="#charges/edit")
                     i.icon-edit

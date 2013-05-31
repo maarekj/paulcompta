@@ -40,7 +40,7 @@ body {
     border: white 1px solid;
 }
 
-#app table tr td.currency {
+#app table tr .currency {
     text-align: right;
 }
 

@@ -6,12 +6,12 @@ name = 'common.services.weeksRepo'
 
 class WeeksRepo
 
-	constructor: (@$log, @env, @_, @filterDate) ->
+	constructor: (@$log, @env, @_, @filterDate, @moment) ->
         @weeks = []
-        @_changes = 0
 
     create: () ->
-        week: @filterDate(new Date(), 'yyyy-MM-dd')
+        monday = @moment().days(1)
+        week: @filterDate(monday.toDate(), 'yyyy-MM-dd')
         charges: {}
     
     getAll: () ->
@@ -22,10 +22,9 @@ class WeeksRepo
 
     add: (week) ->
         @weeks.push(week)
-        @_changes++
         
-    changes: () ->
-        return @_changes
+    count: () ->
+        return @weeks.length
         
     save: (index, week) ->
         @weeks[index] = week
@@ -46,11 +45,16 @@ class WeeksRepo
         for charge, price of week.charges
             total += price
         return total
+
+    getTotalAll: () ->
+        weeks = @getAll()
+        totals = (@getTotalOfCharge(week) for week in weeks)
+        return @_.reduce totals, ((memo, num) -> memo + num), 0
         
     removeAtIndex: (index) ->
         @weeks.splice(index, 1)
         return @
 
-angular.module(name, []).factory(name, ['$log', 'common.services.env', 'underscore', '$filter', ($log, env, underscore, $filter) ->
-	new WeeksRepo($log, env, underscore, $filter('date'))
+angular.module(name, []).factory(name, ['$log', 'common.services.env', 'underscore', '$filter', "moment", ($log, env, underscore, $filter, moment) ->
+	new WeeksRepo($log, env, underscore, $filter('date'), moment)
 ])

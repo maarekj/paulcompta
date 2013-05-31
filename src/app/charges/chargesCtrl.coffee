@@ -8,10 +8,11 @@ angular.module(nameListCtrl, []).controller(nameListCtrl, [
     'common.services.gdriveService'
     ($scope, weeksRepo, gdrive) ->
 
-        $scope.weeksChange = () -> weeksRepo.changes()
-        $scope.$watch "weeksChange()", () ->
+        $scope.weeksCount = () -> weeksRepo.count()
+        $scope.$watch "weeksCount()", () ->
             $scope.weeks = weeksRepo.getAll()
             $scope.chargesItems = weeksRepo.getChargesItems()
+            $scope.totalAll = weeksRepo.getTotalAll()
 
         $scope.getTotalOfCharge = (week) ->
             return weeksRepo.getTotalOfCharge(week)
@@ -25,8 +26,8 @@ angular.module(nameListEditCtrl, []).controller(nameListEditCtrl, [
     'common.services.weeksRepo'
     ($scope, $window, $location, weeksRepo) ->        
 
-        $scope.weeksChange = () -> weeksRepo.changes()
-        $scope.$watch "weeksChange()", () ->
+        $scope.weeksCount = () -> weeksRepo.count()
+        $scope.$watch "weeksCount()", () ->
             $scope.weeks = weeksRepo.getAll()
             $scope.chargesItems = weeksRepo.getChargesItems()
 
@@ -53,7 +54,9 @@ angular.module(nameEditCtrl, []).controller(nameEditCtrl, [
     'common.services.weeksRepo'
     ($scope, $window, $location, $routeParams, weeksRepo) ->
 
-        $scope.chargesItems = weeksRepo.getChargesItems()
+        $scope.weeksCount = () -> weeksRepo.count()
+        $scope.$watch "weeksCount()", () ->
+            $scope.chargesItems = weeksRepo.getChargesItems()
 
         index = $routeParams.index
         if index?

@@ -4,13 +4,16 @@
 
 mods = [
     'ngCookies'
+    'underscore'
+    'moment'
+
+    'common.services.deferredData'
+
     'common.services.authService'
     'common.services.envProvider'
-    'common.services.deferredData'
 
     'common.services.gdriveService'
     'common.services.weeksRepo'
-    'underscore'
     
     'login.loginViewCtrl'
     'charges.chargesListViewCtrl'
@@ -52,7 +55,6 @@ m = angular.module('app', mods)
 m.config ['$routeProvider', routesConfigFn]
 
 m.config (['common.services.envProvider', (envProvider)->
-
     # Allows the environment provider to run whatever config block it wants.
     if envProvider.appConfig?
         envProvider.appConfig()

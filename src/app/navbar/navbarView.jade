@@ -1,19 +1,20 @@
 #navbar(ng-controller="navbar.navbarCtrl")
     .navbar.navbar-inverse.navbar-fixed-top(ng-show="isConnected()")
         .navbar-inner
-            a.brand Paul Compta
-            ul.nav
-                li
-                    a(href="#charges") Charges
-                li
-                    a Chiffre d'affaires
-                li
-                    a Bénéfices
-            ul.nav.pull-right
-                li
-                    a(ng-click="save()", href="")
-                        span Save 
-                        i.icon-refresh.icon-white
-                li
-                    a(ng-click='deconnect()', href="#") se déconnecter
+            .container
+                a.brand Paul Compta
+                ul.nav
+                    li
+                        a(href="#/charges") Charges
+                    li
+                        a Chiffre d'affaires
+                    li
+                        a Bénéfices
+                ul.nav.pull-right
+                    li
+                        a(ng-click="save()", href="")
+                            span Save 
+                            i.icon-refresh.icon-white
+                    li
+                        a(ng-click='deconnect()', href="#") se déconnecter
                 

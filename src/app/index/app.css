@@ -1,11 +1,33 @@
 /* Custom CSS can go here, but since we're using bootstrap, we don't have any */
 body {
-    position: relative;
-    padding-top: 60px;
+    /*padding-top: 60px;*/
+}
+
+@media (min-width: 979px) {
+    body {
+        padding-top: 60px;
+    }
+}
+
+@media (max-width: 979px) {
+    body {
+        padding-top: 0px;
+    }
 }
 
 #app h1 {
     display: inline-block;
+}
+
+#app .alert-global {
+    position: fixed;
+    top: 51px;
+    right: 20px;
+}
+
+#toolbar .btn-group {
+    float: right;
+    margin-top: 20px;
 }
 
 #app table {

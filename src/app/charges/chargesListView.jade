@@ -1,7 +1,13 @@
 .chargesListView(ng-controller="charges.chargesListViewCtrl")
     .row
         .span12
-            h1 Charges
+            #toolbar
+                h1 Charges
+                .btn-group
+                    a.btn(href="#/charges/edit")
+                        i.icon-edit
+                        span  Modifier
+
             table.table.table-condensed
                 thead
                     tr
@@ -23,7 +29,3 @@
                     tr
                         th(colspan="{{1 + chargesItems.length}}")
                         th.total.currency() {{totalAll|currency}}
-            .btn-group
-                a.btn(href="#charges/edit")
-                    i.icon-edit
-                    span  Modifier

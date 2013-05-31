@@ -1,7 +1,15 @@
 .chargesListView(ng-controller="charges.chargesListEditViewCtrl")
     .row
         .span12
-            h1 Modifications des charges
+            #toolbar
+                h1 Modifications des charges
+                .btn-group
+                    a.btn(href="#/charges")
+                        i.icon-arrow-left
+                    button.btn(ng-click="addCharge()")
+                        i.icon-plus
+                        span Ajouter une ligne
+            
             table.table.table-condensed
                 thead
                     tr
@@ -27,9 +35,3 @@
                         th.week Semaine
                         th(ng-repeat="charge in chargesItems") {{charge}}
                         th.total Total
-            .btn-group
-                a.btn(href="#charges")
-                    i.icon-arrow-left
-                button.btn(ng-click="addCharge()")
-                    i.icon-plus
-                    span Ajouter une ligne

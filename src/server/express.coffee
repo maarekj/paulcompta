@@ -27,7 +27,8 @@ app.get '/load', (req, res) ->
         res.json(error.response?.statusCode ? 500, error.body ? error)
 
 try
-    app.use(require('grunt-contrib-livereload/lib/utils').livereloadSnippet)
+    if process.env.APP_LIVE_RELOAD == "on" 
+        app.use(require('grunt-contrib-livereload/lib/utils').livereloadSnippet)
 catch ex
     console.log ex
 

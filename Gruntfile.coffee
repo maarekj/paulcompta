@@ -12,10 +12,12 @@ module.exports = (grunt)->
     SRC_SERVER_DIR =                "#{SRC_DIR}/server"
 
     BUILD_DIR =                     "dist"
+    BUILD_SERVER_DIR =              "#{BUILD_DIR}/server"
     BUILD_APP_DIR =                 "#{BUILD_DIR}/app"
-    BUILD_SERVER_DIR =              "#{BUILD_DIR}/server"    
     BUILD_ENV_PROVIDER_PATH =       "#{BUILD_APP_DIR}/common/services/envProvider.coffee"
     
+    APP_INDEX_PATH =                "#{BUILD_APP_DIR}/index.html"
+    APP_MANIFEST_PATH =             "#{BUILD_APP_DIR}/manifest.appcache"
     APP_CSS_PATH =                  "#{BUILD_APP_DIR}/style/app.css"
     APP_JS_PATH =                   "#{BUILD_APP_DIR}/js/app.js"
     
@@ -89,6 +91,34 @@ module.exports = (grunt)->
                 src: "#{BUILD_APP_DIR}/**/*.jade"
                 dest: "#{BUILD_APP_DIR}/"
 
+        manifest:
+            generate:
+                options:
+                    basePath: BUILD_APP_DIR
+                    cache: [
+                        # CSS
+                        "http://code.jquery.com/ui/1.9.0/themes/base/jquery-ui.css"
+                        "//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css"
+                        
+                        # JS
+                        "//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"
+                        "//ajax.googleapis.com/ajax/libs/angularjs/1.0.6/angular.js"
+                        "//ajax.googleapis.com/ajax/libs/angularjs/1.0.6/angular-cookies.js"
+                        "http://code.angularjs.org/1.0.2/i18n/angular-locale_fr.js"
+                        "//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.js"
+                        "//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"
+                        "//cdnjs.cloudflare.com/ajax/libs/moment.js/2.0.0/moment.min.js"
+                        
+                        # Images
+                        "http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/img/glyphicons-halflings-white.png"
+                        "http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/img/glyphicons-halflings.png"
+                    ]
+                    network: ['*']
+                    prefOnline: false
+                    verbose: false
+                    timestamp: true
+                src: ["**/*.css", "**/*.js", "**/*.html"]
+                dest: APP_MANIFEST_PATH
         uglify:
             app:
                 src: APP_JS_PATH
@@ -145,13 +175,14 @@ module.exports = (grunt)->
     grunt.loadNpmTasks('grunt-express')
     grunt.loadNpmTasks('grunt-regarde')
     grunt.loadNpmTasks('grunt-replace')
+    grunt.loadNpmTasks('grunt-manifest')
 
     ###############################################################
     # Alias tasks
     ###############################################################
 
     for env in ['dev', 'heroku']
-        grunt.registerTask("build_app_#{env}", ['copy', "replace:#{env}", 'concat', 'coffee:app', 'jade', 'clean:after_build_app'])
+        grunt.registerTask("build_app_#{env}", ['copy', "replace:#{env}", 'concat', 'coffee:app', 'jade', 'clean:after_build_app', 'manifest'])
         grunt.registerTask('build_server', ['coffee:server'])
         grunt.registerTask("build_#{env}", ["build_app_#{env}", 'build_server'])
 

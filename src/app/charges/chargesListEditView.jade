@@ -35,3 +35,6 @@
                         th.week Semaine
                         th(ng-repeat="charge in chargesItems") {{charge}}
                         th.total Total
+                    tr
+                        th(colspan="{{2 + chargesItems.length}}")
+                        th.total.currency() {{totalAll()|currency}}

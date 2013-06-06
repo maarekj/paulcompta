@@ -59,7 +59,7 @@ module.exports = (grunt)->
                     variables:
                         "ENV_NAME": "heroku"
                         "ENV_GOOGLE_CLIENT_ID": "525964413214-jrc04fjcde7kdd903dhe9ujnr68p7hg3.apps.googleusercontent.com"
-                        "ENV_GOOGLE_REDIRECT_URI": "http://paulcompta.heroku.com"
+                        "ENV_GOOGLE_REDIRECT_URI": "http://paulcompta.herokuapp.com"
                 files: [
                     src: [BUILD_ENV_PROVIDER_PATH]
                     dest: BUILD_ENV_PROVIDER_PATH

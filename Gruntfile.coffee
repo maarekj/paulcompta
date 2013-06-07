@@ -23,6 +23,32 @@ module.exports = (grunt)->
     
     SERVER_PATH =                   "#{BUILD_SERVER_DIR}/express"
 
+    MANIFEST_OPTIONS =
+        basePath: BUILD_APP_DIR
+        cache: [
+            # CSS
+            "http://code.jquery.com/ui/1.9.0/themes/base/jquery-ui.css"
+            "//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css"
+    
+            # JS
+            "//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"
+            "//ajax.googleapis.com/ajax/libs/angularjs/1.0.6/angular.js"
+            "//ajax.googleapis.com/ajax/libs/angularjs/1.0.6/angular-cookies.js"
+            "http://code.angularjs.org/1.0.2/i18n/angular-locale_fr.js"
+            "//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.js"
+            "//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"
+            "//cdnjs.cloudflare.com/ajax/libs/moment.js/2.0.0/moment.min.js"
+                        
+            # Images
+            "http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/img/glyphicons-halflings-white.png"
+            "http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/img/glyphicons-halflings.png"
+        ]
+        network: ['*']
+        prefOnline: true
+        verbose: false
+        timestamp: true
+
+
     ###############################################################
     # Config
     ###############################################################
@@ -92,33 +118,15 @@ module.exports = (grunt)->
                 dest: "#{BUILD_APP_DIR}/"
 
         manifest:
-            generate:
-                options:
-                    basePath: BUILD_APP_DIR
-                    cache: [
-                        # CSS
-                        "http://code.jquery.com/ui/1.9.0/themes/base/jquery-ui.css"
-                        "//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css"
-                        
-                        # JS
-                        "//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"
-                        "//ajax.googleapis.com/ajax/libs/angularjs/1.0.6/angular.js"
-                        "//ajax.googleapis.com/ajax/libs/angularjs/1.0.6/angular-cookies.js"
-                        "http://code.angularjs.org/1.0.2/i18n/angular-locale_fr.js"
-                        "//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.js"
-                        "//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"
-                        "//cdnjs.cloudflare.com/ajax/libs/moment.js/2.0.0/moment.min.js"
-                        
-                        # Images
-                        "http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/img/glyphicons-halflings-white.png"
-                        "http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/img/glyphicons-halflings.png"
-                    ]
-                    network: ['*']
-                    prefOnline: false
-                    verbose: false
-                    timestamp: true
+            dev:
+                options: MANIFEST_OPTIONS
+                src: []
+                dest: APP_MANIFEST_PATH
+            heroku:
+                options: MANIFEST_OPTIONS
                 src: ["**/*.css", "**/*.js", "**/*.html"]
                 dest: APP_MANIFEST_PATH
+                
         uglify:
             app:
                 src: APP_JS_PATH
@@ -182,7 +190,7 @@ module.exports = (grunt)->
     ###############################################################
 
     for env in ['dev', 'heroku']
-        grunt.registerTask("build_app_#{env}", ['copy', "replace:#{env}", 'concat', 'coffee:app', 'jade', 'clean:after_build_app', 'manifest'])
+        grunt.registerTask("build_app_#{env}", ['copy', "replace:#{env}", 'concat', 'coffee:app', 'jade', 'clean:after_build_app', "manifest:#{env}"])
         grunt.registerTask('build_server', ['coffee:server'])
         grunt.registerTask("build_#{env}", ["build_app_#{env}", 'build_server'])
 

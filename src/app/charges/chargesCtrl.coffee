@@ -68,7 +68,7 @@ angular.module(nameEditCtrl, []).controller(nameEditCtrl, [
         
         $scope.getTotal = () ->
             return weeksRepo.getTotalOfCharge($scope.week)
-            
+
         $scope.addChargeItem = () ->
             item = $window.prompt('Quel est le nom du poste de dépense à ajouter ?')
             $scope.chargesItems.push(item) if item

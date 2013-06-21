@@ -8,6 +8,7 @@ mods = [
     'moment'
 
     'common.filters.sum'
+    'common.filters.nullToUndefined'
     'common.directives.inputPlus'
     
     'common.services.deferredData'

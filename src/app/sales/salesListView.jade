@@ -22,7 +22,7 @@
                 tbody
                     tr(ng-repeat="week in weeks")
                         td.week {{week.week|date}}
-                        td.currency(ng-repeat="saleDay in week.sales") {{saleDay|currency}}
+                        td.currency(ng-repeat="saleDay in week.sales") {{saleDay|nullToUndefined|currency}}
                         td.currency.total {{total(week)|currency}}
                 tfoot
                     tr

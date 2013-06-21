@@ -1,0 +1,54 @@
+.chargesListView(ng-controller="sales.salesListEditViewCtrl")
+    .row
+        .span12
+            #toolbar
+                h1 Modification du chiffre d'affaire
+                .btn-group
+                    a.btn(href="#/sales")
+                        i.icon-arrow-left
+                    button.btn(ng-click="addWeek()")
+                        i.icon-plus
+                        span Ajouter une ligne
+
+            table.table.table-condensed
+                thead
+                    tr
+                        th.action
+                        th.week Semaine
+                        th Lundi
+                        th Mardi
+                        th Mercredi
+                        th Jeudi
+                        th Vendredi
+                        th Samedi
+                        th Dimanche
+                        th.total Total
+                tbody
+                    tr(ng-repeat="(index, week) in weeks")
+                        td.action
+                            button.btn.btn-primary.btn-mini(ng-click="editWeekAtIndex(index)")
+                                i.icon-edit.icon-white
+                            button.btn.btn-danger.btn-mini(ng-click="removeWeekAtIndex(index)")
+                                i.icon-trash.icon-white
+                        td.week {{week.week|date}}
+                        td.currency(ng-repeat="day in [0, 1, 2, 3, 4, 5, 6]")
+                            input.input-mini(type="number", ng-model="week.sales[day]")
+                        td.currency.total {{total(week)|currency}}
+                tfoot
+                    tr
+                        th.action
+                        th.week Semaine
+                        th Lundi
+                        th Mardi
+                        th Mercredi
+                        th Jeudi
+                        th Vendredi
+                        th Samedi
+                        th Dimanche
+                        th.total Total
+                    tr
+                        th(colspan="9")
+                        th.total.currency {{totalAll|currency}}
+
+                    
+                    

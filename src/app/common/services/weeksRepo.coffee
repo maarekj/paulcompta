@@ -13,6 +13,7 @@ class WeeksRepo
         monday = @moment().days(1)
         week: @filterDate(monday.toDate(), 'yyyy-MM-dd')
         charges: {}
+        sales: [0, 0, 0, 0, 0, 0, 0]
     
     getAll: () ->
         return @weeks
@@ -46,7 +47,7 @@ class WeeksRepo
             total += price
         return total
 
-    getTotalAll: () ->
+    getTotalAllCharge: () ->
         weeks = @getAll()
         totals = (@getTotalOfCharge(week) for week in weeks)
         return @_.reduce totals, ((memo, num) -> memo + num), 0

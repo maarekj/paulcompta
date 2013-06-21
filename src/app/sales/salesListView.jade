@@ -1,0 +1,42 @@
+.chargesListView(ng-controller="sales.salesListViewCtrl")
+    .row
+        .span12
+            #toolbar
+                h1 Chiffres d'affaires
+                .btn-group
+                    a.btn(href="#/sales/edit")
+                        i.icon-edit
+                        span  Modifier
+            table.table.table-condensed
+                thead
+                    tr
+                        th.week Semaine
+                        th Lundi
+                        th Mardi
+                        th Mercredi
+                        th Jeudi
+                        th Vendredi
+                        th Samedi
+                        th Dimanche
+                        th.total Total
+                tbody
+                    tr(ng-repeat="week in weeks")
+                        td.week {{week.week|date}}
+                        td.currency(ng-repeat="saleDay in week.sales") {{saleDay|currency}}
+                        td.currency.total {{total(week)|currency}}
+                tfoot
+                    tr
+                        th.week Semaine
+                        th Lundi
+                        th Mardi
+                        th Mercredi
+                        th Jeudi
+                        th Vendredi
+                        th Samedi
+                        th Dimanche
+                        th.total Total
+                    tr
+                        th(colspan="8")
+                        th.total.currency {{totalAll|currency}}
+                    
+                    

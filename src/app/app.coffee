@@ -7,6 +7,9 @@ mods = [
     'underscore'
     'moment'
 
+    'common.filters.sum'
+    'common.directives.inputPlus'
+    
     'common.services.deferredData'
 
     'common.services.authService'
@@ -19,6 +22,10 @@ mods = [
     'charges.chargesListViewCtrl'
     'charges.chargesListEditViewCtrl'
     'charges.chargeEditViewCtrl'
+    
+    'sales.salesListViewCtrl'
+    'sales.salesListEditViewCtrl'
+#    'sales.saleEditViewCtrl'
 
     'navbar.navbarCtrl'
     'index.indexCtrl'
@@ -42,6 +49,11 @@ routesConfigFn = ($routeProvider)->
         {templateUrl: '/charges/chargeEditView.html'})
     $routeProvider.when('/charges/edit/:index',
         {templateUrl: '/charges/chargeEditView.html'})
+        
+    $routeProvider.when('/sales',
+        {templateUrl: '/sales/salesListView.html'})
+    $routeProvider.when('/sales/edit',
+        {templateUrl: '/sales/salesListEditView.html'})
         
 
     $routeProvider.otherwise({redirectTo: '/'})

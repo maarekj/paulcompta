@@ -40,8 +40,8 @@ body {
 }
 
 #app table tr th {
-    background-color: #9FBE80;
-    color: #274E13;
+    background-color: #FF9900;
+    color: #0000FF;
     text-align: center;
     border-top: black 1px solid;
     border-bottom: black 1px solid;
@@ -63,8 +63,13 @@ body {
 }
 
 #app table tr td {
-    background-color: #D9EAD3;
+    color: #0000AA;
+    background-color: #F9CB9C;
     border: white 1px solid;
+}
+
+#app table tr td.total {
+    color: #0000FF;
 }
 
 #app table tr .currency {

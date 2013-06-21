@@ -21,8 +21,9 @@ class GdriveService
         defer = @deferredData.typeObject();
         @$http.get(@loadUrl)
         .success((data) =>
-            for week in data.weeks
-                @weeksRepo.add(week)
+            if data?.weeks
+                for week in data.weeks
+                    @weeksRepo.add(week)
             @loading = false
             defer.$resolve data
         )

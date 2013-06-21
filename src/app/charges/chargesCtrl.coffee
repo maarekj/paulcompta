@@ -8,12 +8,11 @@ angular.module(nameListCtrl, []).controller(nameListCtrl, [
     'common.services.gdriveService'
     ($scope, weeksRepo, gdrive) ->
 
-        $scope.totalAll = () -> weeksRepo.getTotalAll()
+        $scope.totalAll = () -> weeksRepo.getTotalAllCharge()
         $scope.weeksCount = () -> weeksRepo.count()
         $scope.$watch "weeksCount()", () ->
             $scope.weeks = weeksRepo.getAll()
             $scope.chargesItems = weeksRepo.getChargesItems()
-            $scope.totalAll = () -> weeksRepo.getTotalAll()
 
         $scope.getTotalOfCharge = (week) ->
             return weeksRepo.getTotalOfCharge(week)
@@ -26,7 +25,7 @@ angular.module(nameListEditCtrl, []).controller(nameListEditCtrl, [
     '$location'
     'common.services.weeksRepo'
     ($scope, $window, $location, weeksRepo) ->        
-        $scope.totalAll = () -> weeksRepo.getTotalAll()
+        $scope.totalAll = () -> weeksRepo.getTotalAllCharge()
         $scope.weeksCount = () -> weeksRepo.count()
         $scope.$watch "weeksCount()", () ->
             $scope.weeks = weeksRepo.getAll()

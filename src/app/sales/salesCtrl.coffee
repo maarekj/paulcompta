@@ -4,6 +4,22 @@ nameListEditCtrl = 'sales.salesListEditViewCtrl'
 class SalesCtrlUtils
     constructor: (@scope, @weeksRepo, @_) ->
 
+    sum: (input) ->
+        add = (acc, e) ->
+            acc + e
+        @_.reduce input, add, 0
+        
+    sort: (input) ->
+        cmp = (a, b) ->
+            if a == b
+                return 0
+            else if a < b
+                -1
+            else
+                1
+        numberCmp = (a, b) -> cmp(Number(a), Number(b))
+        input.sort numberCmp
+
     init: () ->
         @scope.weeksCount = () => @weeksRepo.count()
         @scope.$watch "weeksCount()", () =>
@@ -11,13 +27,11 @@ class SalesCtrlUtils
         
         cache = {}
         @scope.totalChange = 0
-        add = (acc, e) -> acc + e
-        sum = (input) => @_.reduce input, add, 0
 
         totalWithCache = (week, withCache) =>
             if withCache && cache[week.week]?
                 return cache[week.week]
-            total = sum week.sales
+            total = @sum week.sales
             @scope.totalChange++ if total != cache[week.week]
             cache[week.week] = total
             return total
@@ -28,7 +42,7 @@ class SalesCtrlUtils
         @scope.totalAll = 0
         @scope.$watch "totalChange", () =>
             totals = (totalWithCache week, true for week in @scope.weeks)
-            @scope.totalAll = sum totals
+            @scope.totalAll = @sum totals
 
 angular.module(nameListCtrl, []).controller(nameListCtrl, [
     '$scope'
@@ -38,6 +52,25 @@ angular.module(nameListCtrl, []).controller(nameListCtrl, [
     ($scope, weeksRepo, gdrive, _) ->
         utils = new SalesCtrlUtils($scope, weeksRepo, _)
         utils.init()
+        
+        $scope.mean = (day) ->
+            days = (week.sales[day] for week in $scope.weeks)
+            if days.length <= 0
+                return 0
+            sum = utils.sum days
+            Math.floor(sum / days.length)
+            
+        $scope.median = (day) =>
+            days = (week.sales[day] for week in $scope.weeks)
+            if days.length <= 0
+                return 0
+
+            days = utils.sort days
+            median = Math.floor(days.length / 2)
+            if median % 2 == 0
+                return Math.floor((days[median] + days[median + 1]) / 2)
+            else
+                return days[median]
 	])
     
 angular.module(nameListEditCtrl, []).controller(nameListEditCtrl, [

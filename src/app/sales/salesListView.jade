@@ -36,7 +36,15 @@
                         th Dimanche
                         th.total Total
                     tr
-                        th(colspan="8")
+                        th Médiane
+                        th(ng-repeat="day in [0, 1, 2, 3, 4, 5, 6]")
+                            {{median(day)|currency}}
                         th.total.currency {{totalAll|currency}}
+                    tr
+                        th Moyenne
+                        th(ng-repeat="day in [0, 1, 2, 3, 4, 5, 6]")
+                            {{mean(day)|currency}}
+                        th.total.currency {{totalAll|currency}}
+
                     
                     

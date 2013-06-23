@@ -35,13 +35,14 @@ body {
     margin-top: 20px;
 }
 
+/* ------------------------------------------------------------------------ */
+/* ------ Table ----------------------------------------------------------- */
+/* ------------------------------------------------------------------------ */
 #app table {
     box-shadow: 1px 1px 10px rgba(0,0,0,0.3);
 }
 
 #app table tr th {
-    background-color: #FF9900;
-    color: #0000FF;
     text-align: center;
     border-top: black 1px solid;
     border-bottom: black 1px solid;
@@ -60,16 +61,6 @@ body {
 #app table tr th:first-child,
 #app table tr td:first-child {
     border-left: black 1px solid;
-}
-
-#app table tr td {
-    color: #0000AA;
-    background-color: #F9CB9C;
-    border: white 1px solid;
-}
-
-#app table tr td.total {
-    color: #0000FF;
 }
 
 #app table tr .currency {
@@ -101,4 +92,30 @@ body {
 
 #app .row.depenses .control-group .controls {
     margin-left: 90px;
+}
+
+/* ------ Table - color --------------------------------------------------- */
+#app table.sales tr th, #app table.charges tr th {
+    color: #0000FF;
+    background-color: #FF9900;
+}
+
+#app table.sales tr td {
+    color: #0000AA;
+    background-color: #9CCDFF;
+    border: white 1px solid;
+}
+
+#app table.sales tr td.total {
+    color: #0000FF;
+}
+
+#app table.charges tr td {
+    color: #0000AA;
+    background-color: #F9CB9C;
+    border: white 1px solid;
+}
+
+#app table.charges tr td.total {
+    color: #0000FF;
 }

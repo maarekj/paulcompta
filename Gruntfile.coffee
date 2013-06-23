@@ -38,6 +38,7 @@ module.exports = (grunt)->
             "//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.js"
             "//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"
             "//cdnjs.cloudflare.com/ajax/libs/moment.js/2.0.0/moment.min.js"
+            "http://www.google.com/jsapi?ext.js"
                         
             # Images
             "http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/img/glyphicons-halflings-white.png"

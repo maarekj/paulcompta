@@ -51,10 +51,29 @@ class WeeksRepo
         weeks = @getAll()
         totals = (@getTotalOfCharge(week) for week in weeks)
         return @_.reduce totals, ((memo, num) -> memo + num), 0
+
+    getTotalSales: (week) ->
+        total = 0
+        for day, sale of week.sales
+            total += sale
+        return total
+
+    getStats: () ->
+        weeks = @getAll()
+        stats = []
+        for week in weeks
+            totalCharges = @getTotalOfCharge week
+            totalSales = @getTotalSales week
+            stats.push
+                week: week.week
+                totalCharges: totalCharges
+                totalSales: totalSales
+                profits: totalSales - totalCharges
+        return stats
         
     removeAtIndex: (index) ->
         @weeks.splice(index, 1)
-        return @
+        return @        
 
 angular.module(name, []).factory(name, ['$log', 'common.services.env', 'underscore', '$filter', "moment", ($log, env, underscore, $filter, moment) ->
 	new WeeksRepo($log, env, underscore, $filter('date'), moment)

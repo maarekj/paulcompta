@@ -1,0 +1,27 @@
+.chargesListView(ng-controller="profits.profitsViewCtrl")
+    .row
+        .span12
+            #toolbar
+                h1 Bénéfices
+
+            table.table.table-condensed.profits
+                thead
+                    tr
+                        th.week Semaine
+                        th Chiffres d'affaires
+                        th Charges
+                        th.total Bénéfices
+                tbody
+                    tr(ng-repeat="stat in stats")
+                        td.week {{stat.week|date}}
+                        td.currency {{stat.totalSales|currency}}
+                        td.currency {{stat.totalCharges|currency}}
+                        td.currency.total {{stat.profits|currency}}
+                tfoot
+                    tr
+                        th.week Semaine
+                        th Chiffres d'affaires
+                        th Charges
+                        th.total Bénéfices
+                    
+                    

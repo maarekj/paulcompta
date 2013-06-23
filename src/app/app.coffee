@@ -26,6 +26,8 @@ mods = [
     
     'sales.salesListViewCtrl'
     'sales.salesListEditViewCtrl'
+    
+    'profits.profitsViewCtrl'
 #    'sales.saleEditViewCtrl'
 
     'navbar.navbarCtrl'
@@ -55,6 +57,9 @@ routesConfigFn = ($routeProvider)->
         {templateUrl: '/sales/salesListView.html'})
     $routeProvider.when('/sales/edit',
         {templateUrl: '/sales/salesListEditView.html'})
+        
+    $routeProvider.when('/profits',
+        {templateUrl: '/profits/profitsView.html'})
         
 
     $routeProvider.otherwise({redirectTo: '/'})

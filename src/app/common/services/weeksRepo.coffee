@@ -69,6 +69,20 @@ class WeeksRepo
                 totalCharges: totalCharges
                 totalSales: totalSales
                 profits: totalSales - totalCharges
+
+        total = @_.reduce stats, (memo, week) ->
+            memo.totalCharges = memo.totalCharges + week.totalCharges
+            memo.totalSales = memo.totalSales + week.totalSales
+            memo.profits = memo.totalSales + week.totalSales
+            memo
+        , {totalCharges: 0, totalSales: 0, profits: 0}
+
+        stats.push
+            week: "Total"
+            totalCharges: total.totalCharges
+            totalSales: total.totalSales
+            profits: total.profits
+
         return stats
         
     removeAtIndex: (index) ->

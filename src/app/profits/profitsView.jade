@@ -23,5 +23,23 @@
                         th Chiffres d'affaires
                         th Charges
                         th.total Bénéfices
-                    
-                    
+                    tr
+                        th.total Total
+                        th.currency.total {{totals.totalSales|currency}}
+                        th.currency.total {{totals.totalCharges|currency}}
+                        th.currency.total {{totals.profits|currency}}
+    .row
+        .span12
+            chart(data="data",
+                type="column"
+                title="Bénéfices",
+                width="800", height="600",
+                select="selectRow(selectedRowIndex)")
+
+    .row
+        .span12
+            chart(data="data",
+                type="line"
+                title="Bénéfices",
+                width="800", height="600",
+                select="selectRow(selectedRowIndex)")

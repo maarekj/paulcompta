@@ -95,9 +95,13 @@ body {
 }
 
 /* ------ Table - color --------------------------------------------------- */
-#app table.sales tr th, #app table.charges tr th {
-    color: #0000FF;
-    background-color: #FF9900;
+#app table.sales tr th,
+#app table.charges tr th,
+#app table.profits tr th {
+    /*color: #0000FF;
+    background-color: #FF9900;*/
+    color: #000000;
+    background-color: #D92344;
 }
 
 #app table.sales tr td {
@@ -117,5 +121,15 @@ body {
 }
 
 #app table.charges tr td.total {
+    color: #0000FF;
+}
+
+#app table.profits tr td {
+    color: #F24822;
+    background-color: #F2C7AE;
+    border: #D9A679 1px solid;
+}
+
+#app table.profits tr td.total {
     color: #0000FF;
 }

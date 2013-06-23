@@ -9,8 +9,10 @@ mods = [
 
     'common.filters.sum'
     'common.filters.nullToUndefined'
+
     'common.directives.inputPlus'
-    
+    'common.directives.chart'
+
     'common.services.deferredData'
 
     'common.services.authService'
@@ -87,5 +89,9 @@ m.run (['common.services.env', 'common.services.authService', (env, authService)
     authService.runAtStart()
 ])
 
-angular.element(document).ready ()->
-    angular.bootstrap(document,['app'])
+
+google.setOnLoadCallback () ->
+    angular.element(document).ready ()->
+        angular.bootstrap(document,['app'])
+
+google.load('visualization', '1', {packages: ['corechart']})

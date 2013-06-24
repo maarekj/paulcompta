@@ -73,7 +73,7 @@ class WeeksRepo
         total = @_.reduce stats, (memo, week) ->
             memo.totalCharges = memo.totalCharges + week.totalCharges
             memo.totalSales = memo.totalSales + week.totalSales
-            memo.profits = memo.totalSales + week.totalSales
+            memo.profits = memo.profits + week.profits
             memo
         , {totalCharges: 0, totalSales: 0, profits: 0}
 

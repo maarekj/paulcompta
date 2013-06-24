@@ -18,7 +18,7 @@
                     tr(ng-repeat="week in weeks")
                         td.week {{week.week|date}}
                         td.currency(ng-repeat="charge in chargesItems", toggle-view)
-                            {{week.charges[charge]|currency}}
+                            .primary {{week.charges[charge]|currency}}
                             input.secondary.input-mini(type="number", ng-model="week.charges[charge]")
                         td.currency.total
                             {{getTotalOfCharge(week)|currency}}

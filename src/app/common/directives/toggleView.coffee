@@ -5,18 +5,18 @@ angular.module('common.directives.toggleView', [])
         link: ($scope, $elm, $attr, transcludeFn) ->
             primary = $elm.find('.primary')
             secondary = $elm.find('.secondary')
-            
-            if primary.length == 0
-                primary = $elm
 
+            primary.show()
             secondary.hide()
 
             isShowing = false
-            primary.on 'dblclick', (event) ->                
+            $elm.on 'dblclick', (event) ->
                 if isShowing
                     secondary.hide()
+                    primary.show()
                 else
                     secondary.show()
+                    primary.hide()
                 isShowing = !isShowing
     }
 ])

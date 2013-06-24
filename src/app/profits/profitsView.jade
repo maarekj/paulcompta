@@ -28,18 +28,27 @@
                         th.currency.total {{totals.totalSales|currency}}
                         th.currency.total {{totals.totalCharges|currency}}
                         th.currency.total {{totals.profits|currency}}
-    .row
+    .row(ng-init="zoom = 1.0")
         .span12
-            chart(data="data",
-                type="column"
-                title="Bénéfices",
-                width="800", height="600",
-                select="selectRow(selectedRowIndex)")
-
-    .row
+            button.btn.btn-mini(ng-click="zoom = zoom + 0.1")
+                i.icon.icon-plus
+            button.btn.btn-mini(ng-click="zoom = zoom - 0.1")
+                i.icon.icon-minus
         .span12
             chart(data="data",
                 type="line"
                 title="Bénéfices",
-                width="800", height="600",
+                width="{{960 * zoom}}", height="500",
+                select="selectRow(selectedRowIndex)")
+    .row(ng-init="zoom = 1.0")
+        .span12
+            button.btn.btn-mini(ng-click="zoom = zoom + 0.1")
+                i.icon.icon-plus
+            button.btn.btn-mini(ng-click="zoom = zoom - 0.1")
+                i.icon.icon-minus
+        .span12
+            chart(data="data",
+                type="column"
+                title="Bénéfices",
+                width="{{960 * zoom}}", height="500",
                 select="selectRow(selectedRowIndex)")

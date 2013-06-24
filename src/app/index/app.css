@@ -95,6 +95,16 @@ body {
 }
 
 /* ------ Table - color --------------------------------------------------- */
+#app table td[toggle-view]:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+#app table input {
+    margin: 0px;
+    padding: 0px;
+}
+
 #app table.sales tr th,
 #app table.charges tr th,
 #app table.profits tr th {

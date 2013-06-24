@@ -12,6 +12,7 @@ mods = [
 
     'common.directives.inputPlus'
     'common.directives.chart'
+    'common.directives.toggleView'
 
     'common.services.deferredData'
 

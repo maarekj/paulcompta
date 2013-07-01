@@ -30,7 +30,7 @@
                             input.input-mini.secondary(type="number", ng-model="week.sales[day]")
                         td.currency.total {{total(week)|currency}}
                         td.currency(ng-repeat="mode in ['cheque', 'cash', 'ticket']", toggle-view)
-                            .primary {{week.modalities[mode]|currency}}
+                            .primary {{week.modalities[mode]|nullToUndefined|currency}}
                             input.input-mini.secondary(type="number", ng-model="week.modalities[mode]")
                 tfoot
                     tr

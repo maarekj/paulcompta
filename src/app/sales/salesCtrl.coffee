@@ -54,14 +54,14 @@ angular.module(nameListCtrl, []).controller(nameListCtrl, [
         utils.init()
         
         $scope.mean = (day) ->
-            days = (week.sales[day] for week in $scope.weeks)
+            days = _(week.sales[day] for week in $scope.weeks).filter((sale) -> sale and sale != 0)
             if days.length <= 0
                 return 0
             sum = utils.sum days
             Math.floor(sum / days.length)
             
         $scope.median = (day) =>
-            days = (week.sales[day] for week in $scope.weeks)
+            days = _(week.sales[day] for week in $scope.weeks).filter((sale) -> sale? and sale != 0)
             if days.length <= 0
                 return 0
 

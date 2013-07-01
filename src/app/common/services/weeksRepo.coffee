@@ -14,6 +14,10 @@ class WeeksRepo
         week: @filterDate(monday.toDate(), 'yyyy-MM-dd')
         charges: {}
         sales: [0, 0, 0, 0, 0, 0, 0]
+        modalities:
+            cheque: 0
+            cash: 0
+            ticket: 0        
     
     getAll: () ->
         return @weeks

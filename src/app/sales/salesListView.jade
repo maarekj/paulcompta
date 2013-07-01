@@ -19,6 +19,9 @@
                         th Samedi
                         th Dimanche
                         th.total Total
+                        th Chèques
+                        th Espèces
+                        th Tickets Resto
                 tbody
                     tr(ng-repeat="week in weeks")
                         td.week {{week.week|date}}
@@ -26,6 +29,9 @@
                             .primary {{week.sales[day]|nullToUndefined|currency}}
                             input.input-mini.secondary(type="number", ng-model="week.sales[day]")
                         td.currency.total {{total(week)|currency}}
+                        td.currency(ng-repeat="mode in ['cheque', 'cash', 'ticket']", toggle-view)
+                            .primary {{week.modalities[mode]|currency}}
+                            input.input-mini.secondary(type="number", ng-model="week.modalities[mode]")
                 tfoot
                     tr
                         th.week Semaine
@@ -37,6 +43,9 @@
                         th Samedi
                         th Dimanche
                         th.total Total
+                        th Chèques
+                        th Espèces
+                        th Tickets Resto
                     tr
                         th Médiane
                         th(ng-repeat="day in [0, 1, 2, 3, 4, 5, 6]")

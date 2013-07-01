@@ -82,15 +82,5 @@ angular.module(nameListEditCtrl, []).controller(nameListEditCtrl, [
     ($scope, $window, $location, weeksRepo, _) ->
         utils = new SalesCtrlUtils($scope, weeksRepo, _)
         utils.init()
-
-        #$scope.removeChargeAtIndex = (index) ->
-        #    if ($window.confirm('Voulez-vous vraiment supprimé la ligne ?'))
-        #        weeksRepo.removeAtIndex(index)
-
-        #$scope.editChargeAtIndex = (index) ->
-        #    $location.path("/charges/edit/#{index}")
-
-        #$scope.addCharge = () ->
-        #    $location.path('/charges/new')
 	])
 

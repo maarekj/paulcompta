@@ -30,6 +30,9 @@ mods = [
     'sales.salesListViewCtrl'
     'sales.salesListEditViewCtrl'
     
+    'sales.paymentsListViewCtrl'
+    'sales.paymentsListEditViewCtrl'
+    
     'profits.profitsViewCtrl'
 #    'sales.saleEditViewCtrl'
 
@@ -61,6 +64,11 @@ routesConfigFn = ($routeProvider)->
     $routeProvider.when('/sales/edit',
         {templateUrl: '/sales/salesListEditView.html'})
         
+    $routeProvider.when('/payments',
+        {templateUrl: '/sales/paymentsListView.html'})
+    $routeProvider.when('/payments/edit',
+        {templateUrl: '/sales/paymentsListEditView.html'})
+            
     $routeProvider.when('/profits',
         {templateUrl: '/profits/profitsView.html'})
         

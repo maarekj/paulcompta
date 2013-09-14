@@ -84,3 +84,31 @@ angular.module(nameListEditCtrl, []).controller(nameListEditCtrl, [
         utils.init()
 	])
 
+
+#####################################################################
+# Payments
+#####################################################################
+
+nameListCtrl = 'sales.paymentsListViewCtrl'
+nameListEditCtrl = 'sales.paymentsListEditViewCtrl'
+
+angular.module(nameListCtrl, []).controller(nameListCtrl, [
+    '$scope'
+    'common.services.weeksRepo'
+    'common.services.gdriveService'
+    'underscore'
+    ($scope, weeksRepo, gdrive, _) ->
+        utils = new SalesCtrlUtils($scope, weeksRepo, _)
+        utils.init()
+	])
+
+angular.module(nameListEditCtrl, []).controller(nameListEditCtrl, [
+    '$scope'
+    '$window'
+    '$location'
+    'common.services.weeksRepo'
+    'underscore'
+    ($scope, $window, $location, weeksRepo, _) ->
+        utils = new SalesCtrlUtils($scope, weeksRepo, _)
+        utils.init()
+	])

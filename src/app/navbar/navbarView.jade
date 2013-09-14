@@ -4,11 +4,16 @@
             .container
                 a.brand Paul Compta
                 ul.nav
-                    li
+                    li(ng-class="{active:location == '/charges'}")
                         a(href="#/charges") Charges
-                    li
+                        
+                    li(ng-class="{active:location == '/sales'}")
                         a(href="#/sales") Chiffre d'affaires
-                    li
+
+                    li(ng-class="{active:location == '/payments'}")
+                        a(href="#/payments") Paiements
+
+                    li(ng-class="{active:location == '/profits'}")
                         a(href="#/profits") Bénéfices
                 ul.nav.pull-right
                     li
@@ -17,4 +22,5 @@
                             i.icon-refresh.icon-white
                     li
                         a(ng-click='deconnect()', href="#") se déconnecter
+                        
                 

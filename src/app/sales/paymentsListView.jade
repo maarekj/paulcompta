@@ -1,0 +1,31 @@
+.chargesListView(ng-controller="sales.paymentsListViewCtrl")
+    .row
+        .span12
+            #toolbar
+                h1 Paiements
+                .btn-group
+                    a.btn(href="#/payments/edit")
+                        i.icon-edit
+                        span  Modifier
+            table.table.table-condensed.sales
+                thead
+                    tr
+                        th.week Semaine
+                        th Chèques
+                        th Espèces
+                        th Tickets Resto
+                        th.total Total
+                tbody
+                    tr(ng-repeat="week in weeks")
+                        td.week {{week.week|date}}
+                        td.currency(ng-repeat="mode in ['cheque', 'cash', 'ticket']", toggle-view)
+                            .primary {{week.modalities[mode]|nullToUndefined|currency}}
+                            input.input-mini.secondary(type="number", ng-model="week.modalities[mode]")
+                        td.currency.total {{total(week)|currency}}
+                tfoot
+                    tr
+                        th.week Semaine
+                        th Chèques
+                        th Espèces
+                        th Tickets Resto
+                        th.total Total                    

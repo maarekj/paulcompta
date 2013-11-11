@@ -45,6 +45,17 @@ class WeeksRepo
 
         return @_.uniq items
         
+    getTotalForCharge: (c) ->
+        cc = []
+        for week in @weeks
+            cc.push(week.charges[c])
+        add = (memo, num) ->
+            if num?
+                return memo + num
+            else
+                return memo
+        return @_.reduce cc, add, 0
+        
     getTotalOfCharge: (week) ->
         total = 0
         for charge, price of week.charges

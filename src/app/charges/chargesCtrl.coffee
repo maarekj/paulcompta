@@ -9,6 +9,10 @@ angular.module(nameListCtrl, []).controller(nameListCtrl, [
     ($scope, weeksRepo, gdrive) ->
 
         $scope.totalAll = () -> weeksRepo.getTotalAllCharge()
+
+        $scope.getTotalForCharge = (charge) ->
+            return weeksRepo.getTotalForCharge(charge)
+            
         $scope.weeksCount = () -> weeksRepo.count()
         $scope.$watch "weeksCount()", () ->
             $scope.weeks = weeksRepo.getAll()

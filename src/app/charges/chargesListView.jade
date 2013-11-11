@@ -28,5 +28,6 @@
                         th(ng-repeat="charge in chargesItems") {{charge}}
                         th.total Total
                     tr
-                        th(colspan="{{1 + chargesItems.length}}")
+                        th Total
+                        th.currency(ng-repeat="charge in chargesItems") {{getTotalForCharge(charge)|currency}}
                         th.total.currency() {{totalAll()|currency}}

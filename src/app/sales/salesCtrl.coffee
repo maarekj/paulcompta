@@ -39,6 +39,11 @@ class SalesCtrlUtils
         @scope.total = (week) =>
             totalWithCache week, false
 
+        @scope.totalModalite = (mode) =>
+            modalites = @_.map @scope.weeks, (week) =>
+                week.modalities[mode]
+            @sum modalites
+        
         @scope.totalAll = 0
         @scope.$watch "totalChange", () =>
             totals = (totalWithCache week, true for week in @scope.weeks)

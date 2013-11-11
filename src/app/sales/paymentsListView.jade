@@ -28,4 +28,8 @@
                         th Chèques
                         th Espèces
                         th Tickets Resto
-                        th.total Total                    
+                        th.total Total
+                    tr
+                        td.week Total
+                        td.currency(ng-repeat="mode in ['cheque', 'cash', 'ticket']") {{totalModalite(mode)|currency}}
+                        td.total {{totalAll|currency}}

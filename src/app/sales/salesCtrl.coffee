@@ -21,7 +21,7 @@ class SalesCtrlUtils
         input.sort numberCmp
 
     init: () ->
-        @scope.selectedYear = 2014
+        @scope.selectedYear = (new Date()).getFullYear()
 
         filterWeeks = () =>
             @scope.weeksFiltered = @weeksRepo.filterByYear(@scope.weeks, @scope.selectedYear)

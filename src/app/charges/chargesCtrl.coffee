@@ -5,7 +5,7 @@ nameEditCtrl = 'charges.chargeEditViewCtrl'
 class ChargesCtrlUtils
     constructor: (@scope, @weeksRepo) ->
     init: () ->
-        @scope.selectedYear = 2014
+        @scope.selectedYear = (new Date()).getFullYear()
 
         filterWeeks = () =>
             @scope.weeksFiltered = @weeksRepo.filterByYear(@scope.weeks, @scope.selectedYear)

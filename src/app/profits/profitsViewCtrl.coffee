@@ -6,7 +6,7 @@ angular.module(name, []).controller(name, [
     'underscore'
     '$filter'
     ($scope, weeksRepo, _, $filter) ->
-        $scope.selectedYear = 2014
+        $scope.selectedYear = (new Date()).getFullYear()
 
         $scope.changeYear = (newYear) =>
             $scope.selectedYear = newYear

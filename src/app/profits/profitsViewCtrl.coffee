@@ -6,11 +6,22 @@ angular.module(name, []).controller(name, [
     'underscore'
     '$filter'
     ($scope, weeksRepo, _, $filter) ->
+        $scope.selectedYear = 2014
+
+        $scope.changeYear = (newYear) =>
+            $scope.selectedYear = newYear
+
         $scope.weeksCount = () -> weeksRepo.count()
-        $scope.$watch "weeksCount()", () ->
-            stats = weeksRepo.getStats()
+
+        refresh = () ->
+            $scope.years = weeksRepo.getYears()
+            stats = weeksRepo.getStatsByYear($scope.selectedYear)
             $scope.stats = stats.splice(0, stats.length - 1)
             $scope.totals = stats.splice(-1)[0]
+
+        $scope.$watch "weeksCount()", refresh
+        $scope.$watch "selectedYear", refresh
+
 
         dateFilter = $filter('date')
         $scope.$watch "stats", () ->
@@ -24,6 +35,6 @@ angular.module(name, []).controller(name, [
                 ]
             $scope.data = data
         , true
-	])
+])
 
 

@@ -1,6 +1,12 @@
 .chargesListView(ng-controller="charges.chargesListViewCtrl")
     .row
         .span12
+            ul.nav.nav-tabs
+                li(ng-repeat="year in years", ng-class="{active: year == selectedYear}")
+                    a(ng-click="changeYear(year)") {{year}}
+                li(ng-class="{active: selectedYear == null}")
+                    a(ng-click="changeYear(null)") Tout
+
             #toolbar
                 h1 Charges
                 .btn-group
@@ -15,13 +21,12 @@
                         th(ng-repeat="charge in chargesItems") {{charge}}
                         th.total Total
                 tbody
-                    tr(ng-repeat="week in weeks")
+                    tr(ng-repeat="week in weeksFiltered")
                         td.week {{week.week|date}}
                         td.currency(ng-repeat="charge in chargesItems", toggle-view)
                             .primary {{week.charges[charge]|currency}}
                             input.secondary.input-mini(type="number", ng-model="week.charges[charge]")
-                        td.currency.total
-                            {{getTotalOfCharge(week)|currency}}
+                        td.currency.total {{getTotalOfCharge(week)|currency}}
                 tfoot
                     tr
                         th.week Semaine

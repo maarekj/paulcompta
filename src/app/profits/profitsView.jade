@@ -1,6 +1,12 @@
 .chargesListView(ng-controller="profits.profitsViewCtrl")
     .row
         .span12
+            ul.nav.nav-tabs
+                li(ng-repeat="year in years", ng-class="{active: year == selectedYear}")
+                    a(ng-click="changeYear(year)") {{year}}
+                li(ng-class="{active: selectedYear == null}")
+                    a(ng-click="changeYear(null)") Tout
+
             #toolbar
                 h1 Bénéfices
 

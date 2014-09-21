@@ -21,10 +21,22 @@ class SalesCtrlUtils
         input.sort numberCmp
 
     init: () ->
+        @scope.selectedYear = 2014
+
+        filterWeeks = () =>
+            @scope.weeksFiltered = @weeksRepo.filterByYear(@scope.weeks, @scope.selectedYear)
+            @scope.totalChange++
+
+        @scope.changeYear = (newYear) =>
+            @scope.selectedYear = newYear
+            filterWeeks()
+
         @scope.weeksCount = () => @weeksRepo.count()
         @scope.$watch "weeksCount()", () =>
             @scope.weeks = @weeksRepo.getAll()
-        
+            @scope.years = @weeksRepo.getYears()
+            filterWeeks()
+
         cache = {}
         @scope.totalChange = 0
 
@@ -40,13 +52,13 @@ class SalesCtrlUtils
             totalWithCache week, false
 
         @scope.totalModalite = (mode) =>
-            modalites = @_.map @scope.weeks, (week) =>
+            modalites = @_.map @scope.weeksFiltered, (week) =>
                 week.modalities[mode]
             @sum modalites
         
         @scope.totalAll = 0
         @scope.$watch "totalChange", () =>
-            totals = (totalWithCache week, true for week in @scope.weeks)
+            totals = (totalWithCache week, true for week in @scope.weeksFiltered)
             @scope.totalAll = @sum totals
 
 angular.module(nameListCtrl, []).controller(nameListCtrl, [
@@ -57,16 +69,18 @@ angular.module(nameListCtrl, []).controller(nameListCtrl, [
     ($scope, weeksRepo, gdrive, _) ->
         utils = new SalesCtrlUtils($scope, weeksRepo, _)
         utils.init()
-        
+
         $scope.mean = (day) ->
-            days = _(week.sales[day] for week in $scope.weeks).filter((sale) -> sale and sale != 0)
+            weeks = $scope.weeksFiltered
+            days = _(week.sales[day] for week in weeks).filter((sale) -> sale and sale != 0)
             if days.length <= 0
                 return 0
             sum = utils.sum days
             Math.floor(sum / days.length)
             
         $scope.median = (day) =>
-            days = _(week.sales[day] for week in $scope.weeks).filter((sale) -> sale? and sale != 0)
+            weeks = $scope.weeksFiltered
+            days = _(week.sales[day] for week in weeks).filter((sale) -> sale? and sale != 0)
             if days.length <= 0
                 return 0
 
@@ -76,7 +90,7 @@ angular.module(nameListCtrl, []).controller(nameListCtrl, [
                 return Math.floor((days[median] + days[median + 1]) / 2)
             else
                 return days[median]
-	])
+    ])
     
 angular.module(nameListEditCtrl, []).controller(nameListEditCtrl, [
     '$scope'
@@ -87,7 +101,7 @@ angular.module(nameListEditCtrl, []).controller(nameListEditCtrl, [
     ($scope, $window, $location, weeksRepo, _) ->
         utils = new SalesCtrlUtils($scope, weeksRepo, _)
         utils.init()
-	])
+    ])
 
 
 #####################################################################
@@ -105,7 +119,7 @@ angular.module(nameListCtrl, []).controller(nameListCtrl, [
     ($scope, weeksRepo, gdrive, _) ->
         utils = new SalesCtrlUtils($scope, weeksRepo, _)
         utils.init()
-	])
+    ])
 
 angular.module(nameListEditCtrl, []).controller(nameListEditCtrl, [
     '$scope'
@@ -116,4 +130,4 @@ angular.module(nameListEditCtrl, []).controller(nameListEditCtrl, [
     ($scope, $window, $location, weeksRepo, _) ->
         utils = new SalesCtrlUtils($scope, weeksRepo, _)
         utils.init()
-	])
+    ])

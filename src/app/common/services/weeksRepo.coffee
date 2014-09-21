@@ -6,7 +6,7 @@ name = 'common.services.weeksRepo'
 
 class WeeksRepo
 
-	constructor: (@$log, @env, @_, @filterDate, @moment) ->
+    constructor: (@$log, @env, @_, @filterDate, @moment) ->
         @weeks = []
 
     create: () ->
@@ -17,26 +17,42 @@ class WeeksRepo
         modalities:
             cheque: 0
             cash: 0
-            ticket: 0        
-    
+            ticket: 0
+
     getAll: () ->
         return @weeks
-    
+
     countAll: () ->
         return @weeks.length
 
+    getYears: () ->
+        @_.chain(@getAll()).groupBy((week) ->
+            return new Date(week.week).getFullYear()
+        ).keys().value()
+
+    # La fonction filtre les "weeks" en fonction de "year".
+    # Si year = null, il n'y a aucun filtre
+    #
+    filterByYear: (weeks, year) ->
+        if year == null
+            return weeks
+        year = parseInt(year)
+        @_(weeks).filter (week) ->
+            date = new Date(week.week)
+            return date.getFullYear() == year
+
     add: (week) ->
         @weeks.push(week)
-        
+
     count: () ->
         return @weeks.length
-        
+
     save: (index, week) ->
         @weeks[index] = week
-        
+
     get: (index) ->
         return @getAll()[index]
-        
+
     getChargesItems: () ->
         items = []
         for week in @getAll()
@@ -44,18 +60,19 @@ class WeeksRepo
                 items.push charge
 
         return @_.uniq items
-        
-    getTotalForCharge: (c) ->
+
+    getTotalForChargeByYear: (c, year) ->
+        weeks = @filterByYear(@weeks, year)
+
         cc = []
-        for week in @weeks
+        for week in weeks
             cc.push(week.charges[c])
+
         add = (memo, num) ->
-            if num?
-                return memo + num
-            else
-                return memo
+            return memo + num if num?
+            return memo
         return @_.reduce cc, add, 0
-        
+
     getTotalOfCharge: (week) ->
         total = 0
         for charge, price of week.charges
@@ -67,14 +84,19 @@ class WeeksRepo
         totals = (@getTotalOfCharge(week) for week in weeks)
         return @_.reduce totals, ((memo, num) -> memo + num), 0
 
+    getTotalAllChargeByYear: (year) ->
+        weeks = @filterByYear(@weeks, year)
+        totals = (@getTotalOfCharge(week) for week in weeks)
+        return @_.reduce totals, ((memo, num) -> memo + num), 0
+
     getTotalSales: (week) ->
         total = 0
         for day, sale of week.sales
             total += sale
         return total
 
-    getStats: () ->
-        weeks = @getAll()
+    getStatsByYear: (year) ->
+        weeks = @filterByYear(@getAll(), year)
         stats = []
         for week in weeks
             totalCharges = @getTotalOfCharge week
@@ -99,11 +121,12 @@ class WeeksRepo
             profits: total.profits
 
         return stats
-        
+
     removeAtIndex: (index) ->
         @weeks.splice(index, 1)
-        return @        
+        return @
 
-angular.module(name, []).factory(name, ['$log', 'common.services.env', 'underscore', '$filter', "moment", ($log, env, underscore, $filter, moment) ->
-	new WeeksRepo($log, env, underscore, $filter('date'), moment)
-])
+angular.module(name, []).factory(name,
+    ['$log', 'common.services.env', 'underscore', '$filter', "moment", ($log, env, underscore, $filter, moment) ->
+        new WeeksRepo($log, env, underscore, $filter('date'), moment)
+    ])

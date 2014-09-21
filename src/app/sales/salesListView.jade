@@ -1,6 +1,12 @@
 .chargesListView(ng-controller="sales.salesListViewCtrl")
     .row
         .span12
+            ul.nav.nav-tabs
+                li(ng-repeat="year in years", ng-class="{active: year == selectedYear}")
+                    a(ng-click="changeYear(year)") {{year}}
+                li(ng-class="{active: selectedYear == null}")
+                    a(ng-click="changeYear(null)") Tout
+
             #toolbar
                 h1 Chiffres d'affaires
                 .btn-group
@@ -20,7 +26,7 @@
                         th Dimanche
                         th.total Total
                 tbody
-                    tr(ng-repeat="week in weeks")
+                    tr(ng-repeat="week in weeksFiltered")
                         td.week {{week.week|date}}
                         td.currency(ng-repeat="day in [0, 1, 2, 3, 4, 5, 6]", toggle-view)
                             .primary {{week.sales[day]|nullToUndefined|currency}}
